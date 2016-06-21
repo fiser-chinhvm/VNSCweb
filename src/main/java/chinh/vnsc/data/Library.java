@@ -29,12 +29,12 @@ public class Library {
         Metadata md1;
         Metadata md2;
         LandsatReader reader;
-        try (BufferedReader in = new BufferedReader(new FileReader("/home/chinhvm/Documents/LC81230522014071LGN00_MTL.txt"))) {
+        try (BufferedReader in = new BufferedReader(new FileReader("/home/haonguyen/data/LC81230522014071LGN00_MTL.txt"))) {
             reader = new LandsatReader(in);
             md1 = reader.read();
             data.add(md1);
         }
-        md2 = (Metadata) XML.unmarshal(new File("/home/chinhvm/Documents/G184220810-LAADS.iso19115"));
+        md2 = (Metadata) XML.unmarshal(new File("/home/haonguyen/data/G184220810-LAADS.iso19115"));
         data.add(md2);
     }
     
