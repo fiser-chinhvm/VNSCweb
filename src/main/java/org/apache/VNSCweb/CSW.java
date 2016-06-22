@@ -9,14 +9,18 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.xml.bind.JAXBException;
+import org.apache.VNSCweb.controller.GetCapabilities;
+import org.apache.VNSCweb.model.GroupElement;
 
 /**
  *
  * @author haonguyen
  */
-@WebService(serviceName = "CSW", targetNamespace="http://www.opengis.net/cat/csw/2.0.2")
+@WebService(serviceName = "CSW")
 public class CSW {
  CSWserver a = new CSWserver();
+ 
     /**
      * This is a sample web service operation
      */
@@ -25,8 +29,10 @@ public class CSW {
 //        return "Hello " + txt + " !";
 //    }
     @WebMethod(operationName = "GetCapabilities")
-   public List<String> getCapabilities()  {
-        return a.GetCapabilities();
+   public GetCapabilities getCapabilities() throws JAXBException  {
+        GetCapabilities b = new GetCapabilities();
+        b.GetCapabilitiesRequest();
+        return b;
     }
      @WebMethod(operationName = "DescribeRecord" )
     public List<String> DescribeRecord(@WebParam(name = "name") String category) {
