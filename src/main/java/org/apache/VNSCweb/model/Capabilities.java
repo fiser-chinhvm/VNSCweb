@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author haonguyen
  */
 @XmlRootElement
-public class GroupElement {
+public class Capabilities {
     private Element AcceptVersions;
     private Element AcceptFormats;
 @XmlElement(namespace = "http://www.opengis.net/ows",name= "AcceptVersion")

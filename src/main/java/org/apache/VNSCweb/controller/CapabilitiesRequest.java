@@ -12,7 +12,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import org.apache.VNSCweb.model.Element;
-import org.apache.VNSCweb.model.GroupElement;
+import org.apache.VNSCweb.model.Capabilities;
 
 
 /**
@@ -22,15 +22,15 @@ import org.apache.VNSCweb.model.GroupElement;
 public class CapabilitiesRequest {
     public CapabilitiesRequest(){
     }
-    public GroupElement GetCapabilitiesRequest() throws JAXBException, FileNotFoundException{
-        JAXBContext ctx = JAXBContext.newInstance(GroupElement.class);
+    public Capabilities GetCapabilitiesRequest() throws JAXBException, FileNotFoundException{
+        JAXBContext ctx = JAXBContext.newInstance(Capabilities.class);
        String[] a1 = {"2.0.2","2.0.0","0.7.2"};
        String[] a2 ={"application/xml"};
         Element a = new Element();
         a.setVersion(a1);
         Element a3 = new Element();
         a3.setOutputFormat(a2);
-        GroupElement b = new GroupElement();
+        Capabilities b = new Capabilities();
         b.setAcceptVersions(a);
         b.setAcceptFormats(a3);
        Marshaller m = ctx.createMarshaller();

@@ -5,6 +5,7 @@
  */
 package org.apache.VNSCweb;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import javax.activation.DataHandler;
 import javax.jws.WebService;
@@ -23,7 +24,7 @@ public class CSW {
  CSWserver a = new CSWserver();
  FileDownloadImpl b = new  FileDownloadImpl();
     @WebMethod(operationName = "GetCapabilities")
-   public CapabilitiesRequest getCapabilities() throws JAXBException  {
+   public CapabilitiesRequest getCapabilities() throws JAXBException, FileNotFoundException  {
         CapabilitiesRequest b = new CapabilitiesRequest();
         b.GetCapabilitiesRequest();
         return b;
