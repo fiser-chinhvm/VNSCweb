@@ -5,6 +5,9 @@
  */
 package org.apache.VNSCweb.controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -16,10 +19,10 @@ import org.apache.VNSCweb.model.GroupElement;
  *
  * @author haonguyen
  */
-public class GetCapabilities {
-    public GetCapabilities(){
+public class CapabilitiesRequest {
+    public CapabilitiesRequest(){
     }
-    public GroupElement GetCapabilitiesRequest() throws JAXBException{
+    public GroupElement GetCapabilitiesRequest() throws JAXBException, FileNotFoundException{
         JAXBContext ctx = JAXBContext.newInstance(GroupElement.class);
        String[] a1 = {"2.0.2","2.0.0","0.7.2"};
        String[] a2 ={"application/xml"};
@@ -33,10 +36,12 @@ public class GetCapabilities {
        Marshaller m = ctx.createMarshaller();
        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
        m.marshal(b, System.out); 
+       OutputStream os = new FileOutputStream("/home/haonguyen/data/GetCapabilities.xml");
+       m.marshal(b, os);
        return b;
     }
-    public static void main(String[] args) throws JAXBException {
-        GetCapabilities a = new GetCapabilities();
+    public static void main(String[] args) throws JAXBException, FileNotFoundException {
+        CapabilitiesRequest a = new CapabilitiesRequest();
         a.GetCapabilitiesRequest();
     }
 
