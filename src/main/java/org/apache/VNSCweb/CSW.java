@@ -6,12 +6,13 @@
 package org.apache.VNSCweb;
 
 import java.util.List;
+import javax.activation.DataHandler;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.xml.bind.JAXBException;
-import org.apache.VNSCweb.controller.GetCapabilities;
-import org.apache.VNSCweb.model.GroupElement;
+import org.apache.VNSCweb.controller.FileDownloadImpl;
+import org.apache.VNSCweb.controller.CapabilitiesRequest;
 
 /**
  *
@@ -20,17 +21,10 @@ import org.apache.VNSCweb.model.GroupElement;
 @WebService(serviceName = "CSW")
 public class CSW {
  CSWserver a = new CSWserver();
- 
-    /**
-     * This is a sample web service operation
-     */
-//    @WebMethod(operationName = "hello")
-//    public String hello(@WebParam(name = "name") String txt) {
-//        return "Hello " + txt + " !";
-//    }
+ FileDownloadImpl b = new  FileDownloadImpl();
     @WebMethod(operationName = "GetCapabilities")
-   public GetCapabilities getCapabilities() throws JAXBException  {
-        GetCapabilities b = new GetCapabilities();
+   public CapabilitiesRequest getCapabilities() throws JAXBException  {
+        CapabilitiesRequest b = new CapabilitiesRequest();
         b.GetCapabilitiesRequest();
         return b;
     }
@@ -41,6 +35,10 @@ public class CSW {
     @WebMethod(operationName = "GetDomain")
     public boolean GetDomain( String category, String product) {
         return a.GetDomain(category, product);
+    }
+    @WebMethod
+    public DataHandler FileDownload(@WebParam(name = "name") String fileName){
+        return b.downloadFile(fileName);
     }
 //    @WebMethod(operationName = "GetRecords")
 //    public String GetRecords(@WebParam(name = "name") String txt) {
