@@ -5,12 +5,14 @@
  */
 package org.apache.VNSCweb.controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import org.apache.VNSCweb.model.DatabaseClass;
 import org.apache.VNSCweb.model.SummaryRecord;
 
 /**
@@ -19,22 +21,42 @@ import org.apache.VNSCweb.model.SummaryRecord;
  */
 public class Record {
 
-    public static void main(String[] args) throws JAXBException, FileNotFoundException {
-        JAXBContext ctx = JAXBContext.newInstance(SummaryRecord.class);
-        String[] b = {"imagery", "baseMaps", "earthCover"};
-        SummaryRecord a = new SummaryRecord();
-        a.setIdentifier(new String[]{"00180e67-b7cf-40a3-861d-b3a09337b195"});
-        a.setTitle(new String[]{"Image ..."});
-        a.setType("dataset");
-        a.setSubject(b);
-        a.setFormat(new String[]{"BIL"});
-        a.setModified(new String[]{"2016-06-23 00:00:00"});
-        a.setAbstracts(new String[]{"product 1 individual ...."});
-        Marshaller m = ctx.createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        m.marshal(a, System.out);
-        OutputStream os = new FileOutputStream("/home/haonguyen/data/SummaryRecord.xml");
-        m.marshal(a, os);
+    private Map<Long, SummaryRecord> messages = DatabaseClass.getRecord();
+
+    public Record() throws ParseException {
+        SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String a = "2007-12-25";
+        Date date = textFormat.parse(a);
+        messages.put(1L, new SummaryRecord(1, "Hello World", "koushik", "13243", date));
+        messages.put(2L, new SummaryRecord(2, "Hello Jersey", "koushik", "12132",date));
+    }
+
+    public List<SummaryRecord> getAllRecord() {
+        return new ArrayList<SummaryRecord>(messages.values());
+    }
+    public SummaryRecord getRecord(String anytext) {
+        return messages.get(anytext);
+    }
+    public SummaryRecord getRecordById(long id) {
+        return messages.get(id);
+    }
+
+    public SummaryRecord addRecord(SummaryRecord message) {
+        message.setId(messages.size() + 1);
+        messages.put(message.getId(), message);
+        return message;
+    }
+
+    public SummaryRecord updateRecord(SummaryRecord message) {
+        if (message.getId() <= 0) {
+            return null;
+        }
+        messages.put(message.getId(), message);
+        return message;
+    }
+
+    public void removeRecord(long id) {
+        messages.remove(id);
     }
 
 }

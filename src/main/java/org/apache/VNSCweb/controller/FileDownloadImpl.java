@@ -25,7 +25,7 @@ public class FileDownloadImpl implements FileDownload {
 
     @Override
     public DataHandler downloadFile(String fileName) {
-        FileDataSource dataSource = new FileDataSource("D:/DownloadTest/"+fileName);
+        FileDataSource dataSource = new FileDataSource("/home/haonguyen/data"+fileName);
 	DataHandler fileDataHandler = new DataHandler(dataSource);
 	   return fileDataHandler;
     }

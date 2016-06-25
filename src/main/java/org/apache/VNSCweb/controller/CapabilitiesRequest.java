@@ -5,44 +5,30 @@
  */
 package org.apache.VNSCweb.controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.VNSCweb.model.Element;
-import org.apache.VNSCweb.model.Capabilities;
-
+import org.apache.VNSCweb.model.GetCapabilitie;
 
 /**
  *
  * @author haonguyen
  */
 public class CapabilitiesRequest {
-    public CapabilitiesRequest(){
-    }
-    public Capabilities GetCapabilitiesRequest() throws JAXBException, FileNotFoundException{
-        JAXBContext ctx = JAXBContext.newInstance(Capabilities.class);
-       String[] a1 = {"2.0.2","2.0.0","0.7.2"};
-       String[] a2 ={"application/xml"};
-        Element a = new Element();
-        a.setVersion(a1);
-        Element a3 = new Element();
-        a3.setOutputFormat(a2);
-        Capabilities b = new Capabilities();
-        b.setAcceptVersions(a);
-        b.setAcceptFormats(a3);
-       Marshaller m = ctx.createMarshaller();
-       m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-       m.marshal(b, System.out); 
-       OutputStream os = new FileOutputStream("/home/haonguyen/data/GetCapabilities.xml");
-       m.marshal(b, os);
-       return b;
-    }
-    public static void main(String[] args) throws JAXBException, FileNotFoundException {
-        CapabilitiesRequest a = new CapabilitiesRequest();
-        a.GetCapabilitiesRequest();
+
+    public CapabilitiesRequest() {
     }
 
+    public List<GetCapabilitie> GetCapabilitiesRequest() {
+        List<GetCapabilitie> m1 = new ArrayList<>();
+        String[] version = {"2.0.2", "2.0.0", "1.0.7"};
+        String[] ouputformat = {"application/xml"};
+        Element a1 = new Element();
+        a1.setVersion(version);
+        Element a2 = new Element();
+        a2.setOutputFormat(ouputformat);
+        GetCapabilitie m2 = new GetCapabilitie(a1, a2);
+        m1.add(m2);
+        return m1;
+    }
 }
