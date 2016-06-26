@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.apache.VNSCweb;
+package chinh.vnsc.data;
 
 import chinh.vnsc.data.Library;
 import java.io.File;

@@ -9,7 +9,7 @@ package chinh.vnsc.controllers;
  *
  * @author chinhvm
  */
-import chinh.vnsc.data.*;
+import chinh.vnsc.data.Library;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class HelloController {
+public class PrintMetadataController {
     private Library lib;
 
-    public HelloController() throws Exception{
+    public PrintMetadataController() throws Exception{
         this.lib = new Library();
     }
     
