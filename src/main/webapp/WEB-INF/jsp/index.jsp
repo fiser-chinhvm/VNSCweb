@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
-    Created on : Jun 15, 2016, 9:22:00 PM
-    Author     : chinhvm
+    Created on : Jun 27, 2016, 2:44:35 AM
+    Author     : haonguyen
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <a href="enter">Click here to continue</a>
+        <h1>Hello World!</h1>
     </body>
 </html>

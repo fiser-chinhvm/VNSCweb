@@ -14,7 +14,12 @@ import java.util.Map;
  */
 public class DatabaseClass {
     private static Map<Long,SummaryRecord> record = new HashMap<>();
+    private static Map<String,SummaryRecord> record1 = new HashMap<>();
+  
     public static Map<Long,SummaryRecord> getRecord(){
         return record;
+    }
+    public static Map<String,SummaryRecord> getRecord1(){
+        return record1;
     }
 }

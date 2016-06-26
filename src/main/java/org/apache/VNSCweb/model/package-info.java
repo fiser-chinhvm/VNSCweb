@@ -13,5 +13,4 @@
 package org.apache.VNSCweb.model;
 
 import javax.xml.bind.annotation.XmlNs;
-import javax.xml.bind.annotation.XmlNsForm;
 import javax.xml.bind.annotation.XmlSchema;

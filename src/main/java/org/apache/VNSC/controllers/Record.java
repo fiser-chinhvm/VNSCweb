@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.apache.VNSCweb.controller;
+package org.apache.VNSC.controllers;
 
 
+import org.apache.VNSC.controllers.ReadXML;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,21 +23,19 @@ import org.apache.VNSCweb.model.SummaryRecord;
 public class Record {
 
     private Map<Long, SummaryRecord> messages = DatabaseClass.getRecord();
+    private Map<String, SummaryRecord> messages1 = DatabaseClass.getRecord1();
 
-    public Record() throws ParseException {
-        SimpleDateFormat textFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String a = "2007-12-25";
-        Date date = textFormat.parse(a);
-        messages.put(1L, new SummaryRecord(1, "Hello World", "koushik", "13243", date));
-        messages.put(2L, new SummaryRecord(2, "Hello Jersey", "koushik", "12132",date));
+    public Record() throws ParseException, Exception {
+        ReadXML a = new ReadXML();
+        messages.put(1L, a.getModismetadata());
+        messages.put(2L, a.getLandsatmetadata());
     }
+    
 
     public List<SummaryRecord> getAllRecord() {
         return new ArrayList<SummaryRecord>(messages.values());
     }
-    public SummaryRecord getRecord(String anytext) {
-        return messages.get(anytext);
-    }
+    
     public SummaryRecord getRecordById(long id) {
         return messages.get(id);
     }

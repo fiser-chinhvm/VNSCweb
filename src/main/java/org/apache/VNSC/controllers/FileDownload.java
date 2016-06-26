@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.apache.VNSCweb.controller;
+package org.apache.VNSC.controllers;
 
-import java.io.File;
 import javax.activation.DataHandler;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
-import javax.ws.rs.core.Response;
 
 /**
  *

@@ -5,58 +5,35 @@
  */
 package org.apache.VNSCweb.model;
 
-import java.util.Date;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import org.opengis.metadata.extent.GeographicBoundingBox;
-
 /**
  *
  * @author haonguyen
  */
 @XmlRootElement(name = "SummaryRecord")
 public class SummaryRecord {
-
     private long id;
+    private String identifier;
     private String title;
     private String type;
-//    private String[] subject;
     private String format;
-//    private String[] relation;
-    private Date modified;
-//    private String[] abstracts;
-//    private String[] spatial;
-//    private GeographicBoundingBox bbox;
+    private String modified;
+    private Element bbox;
+
     public SummaryRecord() {
 
     }
-
-    public SummaryRecord(long identifier, String title, String type, String format,Date modified) {
-        this.id = identifier;
+    public SummaryRecord(long id, String identifier,String title, String type, String format, String modified, Element bbox) {
+        this.id = id;
+        this.identifier=identifier;
         this.title = title;
         this.type = type;
         this.format = format;
-//    this.BoundingBox = Bounding;
+        this.bbox = bbox;
         this.modified = modified;
-
     }
-    
-
-//    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "subject")
-
-//    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "relation")
-//    
-//    @XmlElement(namespace = "http://purl.org/dc/terms", name = "modified")
-//    
-//    @XmlElement(namespace = "http://purl.org/dc/terms", name = "abstract")
-//    
-//
-//    @XmlElement(namespace = "http://purl.org/dc/terms", name = "spatial")
-//    
-//
-//    @XmlElement(namespace = "http://www.opengis.net/ows", name = "BoundingBox")
-@XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "identifier")
+    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "id")
     public long getId() {
         return id;
     }
@@ -64,7 +41,15 @@ public class SummaryRecord {
     public void setId(long id) {
         this.id = id;
     }
-@XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "title")
+@XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "identifier")
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "title")
     public String getTitle() {
         return title;
     }
@@ -72,7 +57,8 @@ public class SummaryRecord {
     public void setTitle(String title) {
         this.title = title;
     }
-@XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "type")
+
+    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "type")
     public String getType() {
         return type;
     }
@@ -80,15 +66,7 @@ public class SummaryRecord {
     public void setType(String type) {
         this.type = type;
     }
-
-//    public String[] getSubject() {
-//        return subject;
-//    }
-//
-//    public void setSubject(String[] subject) {
-//        this.subject = subject;
-//    }
-@XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "format")
+    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "format")
     public String getFormat() {
         return format;
     }
@@ -96,46 +74,22 @@ public class SummaryRecord {
     public void setFormat(String format) {
         this.format = format;
     }
-
-//    public String[] getRelation() {
-//        return relation;
-//    }
-//
-//    public void setRelation(String[] relation) {
-//        this.relation = relation;
-//    }
-@XmlElement(namespace = "http://purl.org/dc/terms", name = "modified")
-    public Date getModified() {
+    @XmlElement(namespace = "http://purl.org/dc/terms", name = "modified")
+    public String getModified() {
         return modified;
     }
 
-    public void setModified(Date modified) {
+    public void setModified(String modified) {
         this.modified = modified;
     }
 
-//    public String[] getAbstracts() {
-//        return abstracts;
-//    }
-//
-//    public void setAbstracts(String[] abstracts) {
-//        this.abstracts = abstracts;
-//    }
+    @XmlElement(namespace = "http://www.opengis.net/ows", name = "BoundingBox")
+    public Element getBbox() {
+        return bbox;
+    }
 
-//    public String[] getSpatial() {
-//        return spatial;
-//    }
-//
-//    public void setSpatial(String[] spatial) {
-//        this.spatial = spatial;
-//    }
-
-//    public GeographicBoundingBox getBbox() {
-//        return bbox;
-//    }
-//
-//    public void setBbox(GeographicBoundingBox bbox) {
-//        this.bbox = bbox;
-//    }
-//    
-
+    public void setBbox(Element bbox) {
+        this.bbox = bbox;
+    }
+   
 }

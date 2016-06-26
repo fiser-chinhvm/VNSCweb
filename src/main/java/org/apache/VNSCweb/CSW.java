@@ -7,8 +7,8 @@ package org.apache.VNSCweb;
 
 import java.io.File;
 import java.text.ParseException;
+import org.apache.VNSC.controllers.CapabilitiesRequest;
 import java.util.List;
-import javax.jws.WebParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,10 +20,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.xml.bind.JAXBException;
-import org.apache.VNSCweb.controller.FileDownloadImpl;
-import org.apache.VNSCweb.controller.CapabilitiesRequest;
-import org.apache.VNSCweb.controller.Record;
+import org.apache.VNSC.controllers.G;
+import org.apache.VNSC.controllers.Record;
 import org.apache.VNSCweb.model.GetCapabilitie;
 import org.apache.VNSCweb.model.SummaryRecord;
 
@@ -35,10 +33,9 @@ import org.apache.VNSCweb.model.SummaryRecord;
 public class CSW {
 
     CapabilitiesRequest d = new CapabilitiesRequest();
-
     @GET
     @Path("/GetCapabilities")
-    @Produces(MediaType.APPLICATION_XML)
+  @Produces(MediaType.APPLICATION_XML)
     public List<GetCapabilitie> getCapabilities() {
 
         return d.GetCapabilitiesRequest();
@@ -46,9 +43,16 @@ public class CSW {
 
     @GET
     @Path("/DescribeRecord")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<SummaryRecord> DescribeRecord() throws ParseException {
+    @Produces(MediaType.APPLICATION_XML)
+    public List<SummaryRecord> DescribeRecord() throws ParseException, Exception {
         Record record = new Record();
+        return record.getAllRecord();
+    }
+    @GET
+    @Path("/DescribeRecord1")
+    @Produces(MediaType.APPLICATION_XML)
+    public List<SummaryRecord> GetRecord() throws ParseException, Exception {
+        G record = new G();
         return record.getAllRecord();
     }
 //    @POST
@@ -61,17 +65,17 @@ public class CSW {
 //    }
 
     @POST
-    @Path("/DescribeRecord/{format}")
-    @Produces(value={MediaType.APPLICATION_XML})
-    public SummaryRecord GetRecords(@PathParam("format") String anytext) throws ParseException {
-        Record record = new Record();
-        return record.getRecord(anytext);
+    @Path("/DescribeRecord1/{type}")
+    @Produces(value = {MediaType.APPLICATION_XML})
+    public SummaryRecord GetRecords(@PathParam("type") String type) throws ParseException, Exception {
+        G record = new G();
+        return record.getRecord(type);
     }
 
     @GET
     @Path("/DescribeRecord/{messageId}")
     @Produces(MediaType.APPLICATION_XML)
-    public SummaryRecord getRecordById(@PathParam("messageId") long id) throws ParseException {
+    public SummaryRecord getRecordById(@PathParam("messageId") long id) throws ParseException, Exception {
         Record record = new Record();
         return record.getRecordById(id);
     }
@@ -86,18 +90,18 @@ public class CSW {
 
     @POST
     @Path("/DescribeRecord")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public SummaryRecord addRecord(SummaryRecord add) throws ParseException {
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_XML)
+    public SummaryRecord addRecord(SummaryRecord add) throws ParseException, Exception {
         Record record = new Record();
         return record.addRecord(add);
     }
 
     @PUT
     @Path("/DescribeRecord/{messageId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public SummaryRecord updateRecord(@PathParam("messageId") long id, SummaryRecord add) throws ParseException {
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_XML)
+    public SummaryRecord updateRecord(@PathParam("messageId") long id, SummaryRecord add) throws ParseException, Exception {
         Record record = new Record();
         add.setId(id);
         return record.updateRecord(add);
@@ -105,20 +109,23 @@ public class CSW {
 
     @DELETE
     @Path("/DescribeRecord/{messageId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public void delRecord(@PathParam("messageId") long id) throws ParseException {
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_XML)
+    public void delRecord(@PathParam("messageId") long id) throws ParseException, Exception {
         Record record = new Record();
 
         record.removeRecord(id);
     }
-    @GET 
+
+    @GET
     @Path("/download/{name}")
     @Produces("text/plain")
-    public Response getFile(@PathParam("name") String name){
-        File file = new File("/home/haonguyen/data/"+name);
-        ResponseBuilder response  = Response.ok((Object) file);
-        response.header("Content-Disposition", "attachment; filename=DisplayName-"+name);
+    public Response getFile(@PathParam("name") String name) {
+        File file = new File("/home/haonguyen/data/" + name);
+        ResponseBuilder response = Response.ok((Object) file);
+        response.header("Content-Disposition", "attachment; filename=DisplayName-" + name);
         return response.build();
     }
 }
+
+
