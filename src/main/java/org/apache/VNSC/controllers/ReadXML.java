@@ -33,7 +33,7 @@ public class ReadXML {
         bbox.setEast(east);
         bbox.setSouth(south);
         bbox.setNorth(north);
-        SummaryRecord m1 = new SummaryRecord(1, identifier, title, "txt", format, modified, bbox);
+        SummaryRecord m1 = new SummaryRecord(1, identifier, title, "xml", format, modified, bbox);
         return m1;
     }
     public SummaryRecord getLandsatmetadata() throws Exception {

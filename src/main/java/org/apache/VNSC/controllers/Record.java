@@ -8,9 +8,7 @@ package org.apache.VNSC.controllers;
 
 import org.apache.VNSC.controllers.ReadXML;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.apache.VNSCweb.model.DatabaseClass;
@@ -23,7 +21,6 @@ import org.apache.VNSCweb.model.SummaryRecord;
 public class Record {
 
     private Map<Long, SummaryRecord> messages = DatabaseClass.getRecord();
-    private Map<String, SummaryRecord> messages1 = DatabaseClass.getRecord1();
 
     public Record() throws ParseException, Exception {
         ReadXML a = new ReadXML();

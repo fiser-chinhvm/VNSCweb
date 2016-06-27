@@ -20,7 +20,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import org.apache.VNSC.controllers.G;
+import org.apache.VNSC.controllers.ProfileService;
 import org.apache.VNSC.controllers.Record;
 import org.apache.VNSCweb.model.GetCapabilitie;
 import org.apache.VNSCweb.model.SummaryRecord;
@@ -48,32 +48,17 @@ public class CSW {
         Record record = new Record();
         return record.getAllRecord();
     }
-    @GET
-    @Path("/DescribeRecord1")
-    @Produces(MediaType.APPLICATION_XML)
-    public List<SummaryRecord> GetRecord() throws ParseException, Exception {
-        G record = new G();
-        return record.getAllRecord();
-    }
-//    @POST
-//    public boolean GetDomain( String category, String product) {
-//        return a.GetDomain(category, product);
-//    }
-//    @WebMethod
-//    public DataHandler FileDownload(@WebParam(name = "name") String fileName){
-//        return b.downloadFile(fileName);
-//    }
 
-    @POST
-    @Path("/DescribeRecord1/{type}")
+    @GET
+    @Path("/GetRecord/{format}")
     @Produces(value = {MediaType.APPLICATION_XML})
-    public SummaryRecord GetRecords(@PathParam("type") String type) throws ParseException, Exception {
-        G record = new G();
-        return record.getRecord(type);
+    public SummaryRecord GetRecords(@PathParam("format") String format) throws ParseException, Exception {
+        ProfileService record = new  ProfileService();
+        return record.getProfile(format);
     }
 
     @GET
-    @Path("/DescribeRecord/{messageId}")
+    @Path("/GetRecordByID/{messageId}")
     @Produces(MediaType.APPLICATION_XML)
     public SummaryRecord getRecordById(@PathParam("messageId") long id) throws ParseException, Exception {
         Record record = new Record();
