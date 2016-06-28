@@ -5,7 +5,10 @@
  */
 package org.apache.VNSCweb;
 
+import static com.sun.org.apache.xml.internal.resolver.Catalog.URI;
+import static com.sun.xml.ws.security.policy.Header.URI;
 import java.io.File;
+import java.net.URI;
 import java.text.ParseException;
 import org.apache.VNSC.controllers.CapabilitiesRequest;
 import java.util.List;
@@ -17,13 +20,17 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.UriInfo;
 import org.apache.VNSC.controllers.ProfileService;
 import org.apache.VNSC.controllers.Record;
 import org.apache.VNSCweb.model.GetCapabilitie;
 import org.apache.VNSCweb.model.SummaryRecord;
+import static org.glassfish.jersey.server.model.Parameter.Source.URI;
 
 /**
  *
@@ -33,11 +40,14 @@ import org.apache.VNSCweb.model.SummaryRecord;
 public class CSW {
 
     CapabilitiesRequest d = new CapabilitiesRequest();
+
     @GET
     @Path("/GetCapabilities")
-  @Produces(MediaType.APPLICATION_XML)
-    public List<GetCapabilitie> getCapabilities() {
-
+    @Produces(MediaType.APPLICATION_XML)
+    public List<GetCapabilitie> getCapabilities(@QueryParam("REQUEST") String request,@QueryParam("AcceptVersion") String Version,@QueryParam("AcceptFormat") String format) {
+        if( request =="GetCapabilities" && Version=="2.0.2,2.0.0,1.0.7" && format=="application/xml" ){
+            return d.GetCapabilitiesRequest();
+        }
         return d.GetCapabilitiesRequest();
     }
 
@@ -53,16 +63,39 @@ public class CSW {
     @Path("/GetRecord/{format}")
     @Produces(value = {MediaType.APPLICATION_XML})
     public SummaryRecord GetRecords(@PathParam("format") String format) throws ParseException, Exception {
-        ProfileService record = new  ProfileService();
+        ProfileService record = new ProfileService();
         return record.getProfile(format);
     }
 
     @GET
     @Path("/GetRecordByID/{messageId}")
     @Produces(MediaType.APPLICATION_XML)
-    public SummaryRecord getRecordById(@PathParam("messageId") long id) throws ParseException, Exception {
+    public SummaryRecord getRecordById(@PathParam("messageId") long id,@Context UriInfo uriInfor) throws ParseException, Exception {
         Record record = new Record();
-        return record.getRecordById(id);
+        SummaryRecord a = record.getRecordById(id);
+        a.addLink(getUriforSel(uriInfor,a), "sel");
+        a.addLink(getUriforProfile(uriInfor,a), "profile");
+        return a;
+    }
+    private String getUriforSel(UriInfo uriInfor, SummaryRecord record){
+        String uri = uriInfor.getBaseUriBuilder()
+                .path(CSW.class)
+                .path(Long.toString(record.getId()))
+                .build()
+                .toString();
+        
+        return uri;
+    }
+    @GET
+    public List<SummaryRecord> getRecordyear(@QueryParam("year") int year,@QueryParam("start") int start,@QueryParam("size") int size) throws Exception {
+         Record record = new Record();
+        if (year > 0) {
+            return record.getAllRecordForYear(year);
+        }
+        if (start >= 0 && size > 0) {
+            return record.getAllRecordPaginated(start, size);
+        }
+        return record.getAllRecord();
     }
 //    @POST
 //    public String Harvest(@WebParam(name = "name") String txt) {
@@ -78,8 +111,8 @@ public class CSW {
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
     public SummaryRecord addRecord(SummaryRecord add) throws ParseException, Exception {
-        Record record = new Record();
-        return record.addRecord(add);
+        ProfileService record = new ProfileService();
+        return record.addProfile(add);
     }
 
     @PUT
@@ -111,6 +144,15 @@ public class CSW {
         response.header("Content-Disposition", "attachment; filename=DisplayName-" + name);
         return response.build();
     }
+    private String getUriforProfile(UriInfo uriInfor, SummaryRecord a) {
+       URI uri = uriInfor.getBaseUriBuilder()
+               .path(CSW.class)
+               .path(CSW.class,"getRecordById")
+//               .path(a.getFormat())
+               .resolveTemplate("messageId", a.getId())
+               .build();
+               return uri.toString();
+               }
+
+    
 }
-
-

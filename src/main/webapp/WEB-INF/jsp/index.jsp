@@ -14,7 +14,7 @@
     <body>
         <h1>Hello World!</h1>
         <br>
-        <a href="http://localhost:8080/MavenWebProject/VNSC/csw/GetCapabilities">GetCapabilities</a>
+        <a href="http://localhost:8080/MavenWebProject/VNSC/csw/GetCapabilities?REQUEST=GetCapabilities&AcceptVersion=2.0.2,2.0.0,1.0.7&AcceptFormat=application/xml">GetCapabilities</a>
         <br>
         <a href="http://localhost:8080/MavenWebProject/VNSC/csw/DescribeRecord">GetRecord</a>
         <br>

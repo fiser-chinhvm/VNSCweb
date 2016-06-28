@@ -5,6 +5,9 @@
  */
 package org.apache.VNSCweb.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 /**
@@ -18,19 +21,30 @@ public class SummaryRecord {
     private String title;
     private String type;
     private String format;
-    private String modified;
-    private Element bbox;
+    private Date modified;
+    private Element BoundingBox;
+    private List<Link> links = new ArrayList<>();
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+   
 
     public SummaryRecord() {
 
     }
-    public SummaryRecord(long id, String identifier,String title, String type, String format, String modified, Element bbox) {
+    public SummaryRecord(long id, String identifier,String title, String type, String format, Date modified, Element BoundingBox) {
         this.id = id;
         this.identifier=identifier;
         this.title = title;
         this.type = type;
         this.format = format;
-        this.bbox = bbox;
+        this.BoundingBox = BoundingBox;
         this.modified = modified;
     }
     @XmlElement(namespace = "http://purl.org/dc/elements/1.1/", name = "id")
@@ -75,21 +89,26 @@ public class SummaryRecord {
         this.format = format;
     }
     @XmlElement(namespace = "http://purl.org/dc/terms", name = "modified")
-    public String getModified() {
+    public Date getModified() {
         return modified;
     }
 
-    public void setModified(String modified) {
+    public void setModified(Date modified) {
         this.modified = modified;
     }
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "BoundingBox")
-    public Element getBbox() {
-        return bbox;
+     public Element getBoundingBox() {
+        return BoundingBox;
     }
 
-    public void setBbox(Element bbox) {
-        this.bbox = bbox;
+    public void setBoundingBox(Element BoundingBox) {
+        this.BoundingBox = BoundingBox;
     }
-   
+    public void addLink(String url,String rel){
+        Link link = new Link();
+        link.setLink(url);
+        link.setRel(rel);
+        links.add(link);
+    }
 }

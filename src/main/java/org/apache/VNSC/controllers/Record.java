@@ -9,8 +9,10 @@ package org.apache.VNSC.controllers;
 import org.apache.VNSC.controllers.ReadXML;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import org.apache.VNSCweb.exception.DataNotFoundException;
 import org.apache.VNSCweb.model.DatabaseClass;
 import org.apache.VNSCweb.model.SummaryRecord;
 
@@ -32,9 +34,30 @@ public class Record {
     public List<SummaryRecord> getAllRecord() {
         return new ArrayList<SummaryRecord>(messages.values());
     }
-    
+    public List<SummaryRecord> getAllRecordForYear(int year) {
+		List<SummaryRecord> messagesForYear = new ArrayList<>();
+		Calendar cal = Calendar.getInstance();
+		for (SummaryRecord message : messages.values()) {
+			cal.setTime(message.getModified());
+			if (cal.get(Calendar.YEAR) == year) {
+				messagesForYear.add(message);
+			}
+		}
+		return messagesForYear;
+	}
+	
+	public List<SummaryRecord> getAllRecordPaginated(int start, int size) {
+		ArrayList<SummaryRecord> list = new ArrayList<SummaryRecord>(messages.values());
+		if (start + size > list.size()) return new ArrayList<SummaryRecord>();
+		return list.subList(start, start + size); 
+	}
+	
     public SummaryRecord getRecordById(long id) {
-        return messages.get(id);
+        SummaryRecord message = messages.get(id);
+        if (message ==null){
+            throw new DataNotFoundException("Record with id " + id +" not found");
+        }
+        return message;
     }
 
     public SummaryRecord addRecord(SummaryRecord message) {

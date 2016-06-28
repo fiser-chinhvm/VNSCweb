@@ -18,46 +18,10 @@ public class Element {
     private String[] Version;
     private String[] OutputFormat;
     private String parameterName;
-    private String west;
-    private String north;
-    private String south;
-    private String east;
-
-    @XmlElement(namespace = "http://www.opengis.net/ows", name = "westBoundLongitude")
-    public String getWest() {
-        return west;
-    }
-
-    public void setWest(String west) {
-        this.west = west;
-    }
-
-    @XmlElement(namespace = "http://www.opengis.net/ows", name = "northBoundLongitude")
-    public String getNorth() {
-        return north;
-    }
-
-    public void setNorth(String north) {
-        this.north = north;
-    }
-
-    @XmlElement(namespace = "http://www.opengis.net/ows", name = "southVersion")
-    public String getSouth() {
-        return south;
-    }
-
-    public void setSouth(String south) {
-        this.south = south;
-    }
-
-    @XmlElement(namespace = "http://www.opengis.net/ows", name = "eastBoundLongitude")
-    public String getEast() {
-        return east;
-    }
-
-    public void setEast(String east) {
-        this.east = east;
-    }
+    private String westBoundLongitude;
+    private String northBoundLongitude;
+    private String southBoundLongitude;
+    private String eastBoundLongitude;
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "Version")
     public String[] getVersion() {
@@ -66,6 +30,42 @@ public class Element {
 
     public void setVersion(String[] Version) {
         this.Version = Version;
+    }
+
+    @XmlElement(namespace = "http://www.opengis.net/ows", name = "westBoundLongitude")
+    public String getWestBoundLongitude() {
+        return westBoundLongitude;
+    }
+
+    public void setWestBoundLongitude(String westBoundLongitude) {
+        this.westBoundLongitude = westBoundLongitude;
+    }
+
+    @XmlElement(namespace = "http://www.opengis.net/ows", name = "northBoundLongitude")
+    public String getNorthBoundLongitude() {
+        return northBoundLongitude;
+    }
+
+    public void setNorthBoundLongitude(String northBoundLongitude) {
+        this.northBoundLongitude = northBoundLongitude;
+    }
+
+    @XmlElement(namespace = "http://www.opengis.net/ows", name = "southBoundLongitude")
+    public String getSouthBoundLongitude() {
+        return southBoundLongitude;
+    }
+
+    public void setSouthBoundLongitude(String southBoundLongitude) {
+        this.southBoundLongitude = southBoundLongitude;
+    }
+
+    @XmlElement(namespace = "http://www.opengis.net/ows", name = "eastBoundLongitude")
+    public String getEastBoundLongitude() {
+        return eastBoundLongitude;
+    }
+
+    public void setEastBoundLongitude(String eastBoundLongitude) {
+        this.eastBoundLongitude = eastBoundLongitude;
     }
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "OutputFormat")
