@@ -7,7 +7,9 @@ package org.apache.VNSCweb;
 
 import static com.sun.org.apache.xml.internal.resolver.Catalog.URI;
 import static com.sun.xml.ws.security.policy.Header.URI;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
 import org.apache.VNSC.controllers.CapabilitiesRequest;
@@ -26,6 +28,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
+import org.apache.VNSC.controllers.HandlePicture;
 import org.apache.VNSC.controllers.ProfileService;
 import org.apache.VNSC.controllers.Record;
 import org.apache.VNSCweb.model.GetCapabilitie;
@@ -50,7 +53,15 @@ public class CSW {
         }
         return d.GetCapabilitiesRequest();
     }
-
+    
+    @GET
+    @Path("/PrintPicture")
+    @Produces("image/png")
+    public BufferedImage getImage() throws IOException{
+        HandlePicture img = new HandlePicture("/home/chinhvm/Documents/","albers27.tif");
+        return img.getData();
+    }
+    
     @GET
     @Path("/DescribeRecord")
     @Produces(MediaType.APPLICATION_XML)
