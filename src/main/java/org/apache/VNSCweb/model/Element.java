@@ -18,10 +18,10 @@ public class Element {
     private String[] Version;
     private String[] OutputFormat;
     private String parameterName;
-    private String westBoundLongitude;
-    private String northBoundLongitude;
-    private String southBoundLongitude;
-    private String eastBoundLongitude;
+    private double westBoundLongitude;
+    private double northBoundLongitude;
+    private double southBoundLongitude;
+    private double eastBoundLongitude;
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "Version")
     public String[] getVersion() {
@@ -33,38 +33,38 @@ public class Element {
     }
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "westBoundLongitude")
-    public String getWestBoundLongitude() {
+    public double getWestBoundLongitude() {
         return westBoundLongitude;
     }
 
-    public void setWestBoundLongitude(String westBoundLongitude) {
+    public void setWestBoundLongitude(double westBoundLongitude) {
         this.westBoundLongitude = westBoundLongitude;
     }
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "northBoundLongitude")
-    public String getNorthBoundLongitude() {
+    public double getNorthBoundLongitude() {
         return northBoundLongitude;
     }
 
-    public void setNorthBoundLongitude(String northBoundLongitude) {
+    public void setNorthBoundLongitude(double northBoundLongitude) {
         this.northBoundLongitude = northBoundLongitude;
     }
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "southBoundLongitude")
-    public String getSouthBoundLongitude() {
+    public double getSouthBoundLongitude() {
         return southBoundLongitude;
     }
 
-    public void setSouthBoundLongitude(String southBoundLongitude) {
+    public void setSouthBoundLongitude(double southBoundLongitude) {
         this.southBoundLongitude = southBoundLongitude;
     }
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "eastBoundLongitude")
-    public String getEastBoundLongitude() {
+    public double getEastBoundLongitude() {
         return eastBoundLongitude;
     }
 
-    public void setEastBoundLongitude(String eastBoundLongitude) {
+    public void setEastBoundLongitude(double eastBoundLongitude) {
         this.eastBoundLongitude = eastBoundLongitude;
     }
 
