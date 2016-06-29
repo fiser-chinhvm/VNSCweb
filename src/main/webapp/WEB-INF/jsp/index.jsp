@@ -26,6 +26,8 @@
         <br>
         <a href="http://localhost:8080/MavenWebProject/VNSC/csw/GetRecord/MOD021KM">GetRecord with format MOD021KM</a>
         <br>
+        <a href="http://localhost:8080/MavenWebProject/VNSC/csw/PrintPicture">Print Picture</a>
+        <br>
         <a href="http://localhost:8080/MavenWebProject/VNSC/csw/download/LC81230522014071LGN00_MTL.txt">Download  with file id = LC81230522014071LGN00_MTL.txt</a>
         <h4>But the fist, you need change link in ReadXML, FileDownloadImpl(in your computer ) to test </h4>
     </body>
