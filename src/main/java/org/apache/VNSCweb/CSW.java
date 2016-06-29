@@ -58,7 +58,7 @@ public class CSW {
     @Path("/PrintPicture")
     @Produces("image/png")
     public BufferedImage getImage() throws IOException{
-        HandlePicture img = new HandlePicture("/home/chinhvm/Documents/","albers27.tif");
+        HandlePicture img = new HandlePicture("src/main/webapp/WEB-INF/resources/","albers27.tif");
         return img.getData();
     }
     

@@ -61,8 +61,8 @@ public class HandlePicture  {
         System.out.println(input);
         BufferedImage tif = ImageIO.read(input);
         System.out.println(tif);
-        ImageIO.write(tif, "png", new File(local+tifFile.substring(0,tifFile.length()-4)+".png"));
-        data = ImageIO.read(new File(local+tifFile));
+        ImageIO.write(tif, "png", new File(local + "PNG/" + tifFile.substring(0,tifFile.length()-4)+".png"));
+        data = ImageIO.read(new File(local + "PNG/" + tifFile));
     }   
     
     public static void main(String[] args) throws IOException {
