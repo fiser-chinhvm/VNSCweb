@@ -9,6 +9,7 @@ package org.apache.VNSC.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.VNSCweb.model.Capacibilities;
 import org.apache.VNSCweb.model.Element;
 import org.apache.VNSCweb.model.GetCapabilitie;
 
@@ -25,12 +26,12 @@ public class CapabilitiesRequest {
         List<GetCapabilitie> m1 = new ArrayList<>();
         String[] version = {"2.0.2", "2.0.0", "1.0.7"};
         String[] ouputformat = {"application/xml"};
-        Element a1 = new Element();
+        Capacibilities a1 = new Capacibilities();
         a1.setVersion(version);
-        Element a2 = new Element();
+        Capacibilities a2 = new Capacibilities();
         a2.setOutputFormat(ouputformat);
         GetCapabilitie m2 = new GetCapabilitie(a1, a2);
-        m1.add(m2);
+        m1.add(m2);//cai nay da thay set may cai east + bound dau?
         return m1;
     }
      
