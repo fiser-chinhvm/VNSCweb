@@ -5,6 +5,7 @@
  */
 package org.apache.VNSCweb;
 
+import com.sun.jersey.api.view.Viewable;
 import static com.sun.org.apache.xml.internal.resolver.Catalog.URI;
 import static com.sun.xml.ws.security.policy.Header.URI;
 import java.awt.image.BufferedImage;
@@ -30,6 +31,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
 import org.apache.VNSC.controllers.HandlePicture;
 import org.apache.VNSC.controllers.ProfileService;
+import org.apache.VNSC.controllers.ReadXML;
 import org.apache.VNSC.controllers.Record;
 import org.apache.VNSCweb.model.GetCapabilitie;
 import org.apache.VNSCweb.model.SummaryRecord;
@@ -76,6 +78,14 @@ public class CSW {
     public SummaryRecord GetRecords(@PathParam("format") String format) throws ParseException, Exception {
         ProfileService record = new ProfileService();
         return record.getProfile(format);
+    }
+    
+    @GET
+    @Path("/test")
+    @Produces("text/html")
+    public Response index() throws Exception {
+       SummaryRecord sr = new ReadXML().getLandsatmetadata();
+       return Response.ok(new Viewable("/required", sr)).build();
     }
 
     @GET
@@ -145,7 +155,7 @@ public class CSW {
 
         record.removeRecord(id);
     }
-
+    
     @GET
     @Path("/download/{name}")
     @Produces("text/plain")
