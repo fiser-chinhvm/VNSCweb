@@ -85,8 +85,7 @@ public class CSW {
     @Path("/test")
     @Produces("text/html")
     public Response index() throws Exception {
-       SummaryRecord sr = new ReadXML().getLandsatmetadata();
-       return Response.ok(new Viewable("/required", sr)).build();
+       return Response.ok(new Viewable("/master")).build();
     }
 
     @GET
