@@ -7,6 +7,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome to VNSC web project</title>
         <link  rel="stylesheet" href="css/myweb.css" type="text/css">
+         <script src="javascript/main.js" />"></script>
         <meta name="viewport" content="width=devide-width,initial-scale=1.0"
     </head>
 
@@ -14,7 +15,10 @@
     <header class ="mainheader">
         <img src="image/image.png">
         <marquee direction="right" ><h2 style="color: #fd1616">TRUNG TÂM VỆ TINH QUỐC GIA - VIETNAM NATIONAL SATELLITE CENTER</h2></marquee>
-        <nav><ul>
+
+  
+
+                <nav><ul>
                 <li><a href="" class="active">Home</a></li>
                 <li><a href="">About</a></li>
                 <li><a href="">Contact</a></li>
@@ -34,18 +38,17 @@
                     </content>
                         
                     <footer>
-                        <p  class="post-infor">Date</p>
+                        <`p  class="post-infor">Date</p>
                     </footer>
                     <content class = "text">
-                        Search from <input type="date" style="width: 120px"> to <input type="date" style="width: 120px">
+                        Search from <input type="date" style="width: 130px"> to <input type="date" style="width: 130px">
                        <br>
                         Search month <input type="month">
                     </content>
                         <p  class="post-infor">Coordinates</p>
                     
                     <content class = "text">
-                        <input type="text" style="width: 300px; height: 30px   "> 
-                        
+                        <input  id="divId" type="text" style="width: 300px; height: 30px   " > 
                     </content>
                         <br>
                         <br>
@@ -57,6 +60,7 @@
             </article>
         </div>
     </div>
+
     <aside class="top-sidebar">
         <article>
             <div id="map"></div>
@@ -67,17 +71,10 @@
     </footer>
 
      
-    <script>
-      function initMap() {
-        var mapDiv = document.getElementById('map');
-        var map = new google.maps.Map(mapDiv, {
-            center: {lat: 19.111061,  lng:  105.451661},
-            zoom:6
-        });
-      }
-    </script>
+   
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP1jtGKFo80FQZ9BC1nOD5c0c0Mhk4Ivo&callback=initMap">
     </script>
+    
 </body>
 </html>
