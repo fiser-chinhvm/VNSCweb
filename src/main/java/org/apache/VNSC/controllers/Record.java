@@ -28,6 +28,14 @@ public class Record {
         ReadXML a = new ReadXML();
         messages.put(1L, a.getModismetadata());
         messages.put(2L, a.getLandsatmetadata());
+        messages.put(3L, a.getModismetadata());
+        messages.put(4L, a.getLandsatmetadata());
+        messages.put(5L, a.getModismetadata());
+        messages.put(6L, a.getLandsatmetadata());
+        messages.put(7L, a.getModismetadata());
+        messages.put(8L, a.getLandsatmetadata());
+        messages.put(9L, a.getModismetadata());
+        messages.put(10L, a.getLandsatmetadata());
     }
     
 

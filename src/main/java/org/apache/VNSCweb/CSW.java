@@ -34,6 +34,7 @@ import org.apache.VNSC.controllers.ProfileService;
 import org.apache.VNSC.controllers.ReadXML;
 import org.apache.VNSC.controllers.Record;
 import org.apache.VNSCweb.model.GetCapabilitie;
+import org.apache.VNSCweb.model.GetRecordByFormat;
 import org.apache.VNSCweb.model.SummaryRecord;
 import static org.glassfish.jersey.server.model.Parameter.Source.URI;
 
@@ -75,9 +76,9 @@ public class CSW {
     @GET
     @Path("/GetRecord/{format}")
     @Produces(value = {MediaType.APPLICATION_XML})
-    public SummaryRecord GetRecords(@PathParam("format") String format) throws ParseException, Exception {
-        ProfileService record = new ProfileService();
-        return record.getProfile(format);
+    public List<SummaryRecord> GetRecords(@PathParam("format") String format) throws ParseException, Exception {
+         GetRecordByFormat data = new GetRecordByFormat();
+        return data.GetByFormat(format);
     }
     
     @GET
