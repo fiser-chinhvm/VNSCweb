@@ -5,11 +5,16 @@
  */
 package org.apache.VNSC.controllers;
 
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.text.DateFormat;
 import org.apache.VNSC.controllers.ReadXML;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.apache.VNSCweb.exception.DataNotFoundException;
@@ -22,68 +27,80 @@ import org.apache.VNSCweb.model.SummaryRecord;
  */
 public class Record {
 
-    private Map<Long, SummaryRecord> messages = DatabaseClass.getRecord();
+    public Record() {
+    }
 
-    public Record() throws ParseException, Exception {
+    public List<SummaryRecord> getAllRecord() throws Exception {
         ReadXML a = new ReadXML();
-        messages.put(1L, a.getModismetadata());
-        messages.put(2L, a.getLandsatmetadata());
-        messages.put(3L, a.getModismetadata());
-        messages.put(4L, a.getLandsatmetadata());
-        messages.put(5L, a.getModismetadata());
-        messages.put(6L, a.getLandsatmetadata());
-        messages.put(7L, a.getModismetadata());
-        messages.put(8L, a.getLandsatmetadata());
-        messages.put(9L, a.getModismetadata());
-        messages.put(10L, a.getLandsatmetadata());
+        List<SummaryRecord> b = new ArrayList<SummaryRecord>();
+        b.addAll(a.listGeotiff());
+        b.addAll(a.listModis());
+        return b;
     }
-    
 
-    public List<SummaryRecord> getAllRecord() {
-        return new ArrayList<SummaryRecord>(messages.values());
-    }
-    public List<SummaryRecord> getAllRecordForYear(int year) {
-		List<SummaryRecord> messagesForYear = new ArrayList<>();
-		Calendar cal = Calendar.getInstance();
-		for (SummaryRecord message : messages.values()) {
-			cal.setTime(message.getModified());
-			if (cal.get(Calendar.YEAR) == year) {
-				messagesForYear.add(message);
-			}
-		}
-		return messagesForYear;
-	}
-	
-	public List<SummaryRecord> getAllRecordPaginated(int start, int size) {
-		ArrayList<SummaryRecord> list = new ArrayList<SummaryRecord>(messages.values());
-		if (start + size > list.size()) return new ArrayList<SummaryRecord>();
-		return list.subList(start, start + size); 
-	}
-	
-    public SummaryRecord getRecordById(long id) {
-        SummaryRecord message = messages.get(id);
-        if (message ==null){
-            throw new DataNotFoundException("Record with id " + id +" not found");
+    public List<SummaryRecord> getRecordByText(String format) throws Exception {
+        ReadXML a = new ReadXML();
+        List<SummaryRecord> b = new ArrayList<SummaryRecord>();
+        b.addAll(a.listGeotiff());
+        b.addAll(a.listModis());
+        List<SummaryRecord> messagesByText = new ArrayList<>();
+        for (SummaryRecord message : b) {
+            if (message.getFormat().equals(format)) {
+                messagesByText.add(message);
+            }
         }
-        return message;
+        return messagesByText;
     }
 
-    public SummaryRecord addRecord(SummaryRecord message) {
-        message.setId(messages.size() + 1);
-        messages.put(message.getId(), message);
-        return message;
-    }
-
-    public SummaryRecord updateRecord(SummaryRecord message) {
-        if (message.getId() <= 0) {
-            return null;
+    public List<SummaryRecord> SearchDate(String date1, String date2) throws Exception {
+        ReadXML a = new ReadXML();
+        List<SummaryRecord> b = new ArrayList<SummaryRecord>();
+        b.addAll(a.listGeotiff());
+        b.addAll(a.listModis());
+        List<SummaryRecord> messagesForYear = new ArrayList<>();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date da1= df.parse(date1);
+        Date da2= df.parse(date2);
+        
+        long day = (da2.getTime() - da1.getTime())/(24*60*60*1000);
+        
+        for (SummaryRecord message : b) {
+           Date da3= message.getModified();
+           long day1 = (da3.getTime()- da1.getTime())/(24*60*60*1000);
+            if (day1 >= 0 && day1 <= day) {
+                messagesForYear.add(message);
+            }
         }
-        messages.put(message.getId(), message);
-        return message;
+        return messagesForYear;
+    }
+    public List<SummaryRecord> getAllRecordPaginated(int start, int size) throws Exception {
+        ReadXML a = new ReadXML();
+        List<SummaryRecord> b = new ArrayList<SummaryRecord>();
+        b.addAll(a.listGeotiff());
+        b.addAll(a.listModis());
+        ArrayList<SummaryRecord> list = new ArrayList<SummaryRecord>(b);
+        if (start + size > list.size()) {
+            return new ArrayList<SummaryRecord>();
+        }
+        return list.subList(start, start + size);
     }
 
-    public void removeRecord(long id) {
-        messages.remove(id);
+    public List<SummaryRecord> getRecordById(long id) throws Exception {
+        ReadXML a = new ReadXML();
+        List<SummaryRecord> b = new ArrayList<SummaryRecord>();
+        b.addAll(a.listGeotiff());
+        b.addAll(a.listModis());
+        List<SummaryRecord> messagesById = new ArrayList<>();
+        for (SummaryRecord message : b) {
+            if (id == message.getId()) {
+                messagesById.add(message);
+            }
+        }
+        return messagesById;
     }
 
+//    public static void main(String[] args) throws Exception {
+//    Record a = new Record();
+//        System.out.println(a.getRecordByText("MOD021KM"));
+//    }
 }

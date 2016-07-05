@@ -13,8 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
+import java.util.Collection;
 import org.apache.VNSC.controllers.CapabilitiesRequest;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -33,6 +35,7 @@ import org.apache.VNSC.controllers.HandlePicture;
 import org.apache.VNSC.controllers.ProfileService;
 import org.apache.VNSC.controllers.ReadXML;
 import org.apache.VNSC.controllers.Record;
+import org.apache.VNSCweb.exception.DataNotFoundException;
 import org.apache.VNSCweb.model.GetCapabilitie;
 import org.apache.VNSCweb.model.GetRecordByFormat;
 import org.apache.VNSCweb.model.SummaryRecord;
@@ -50,21 +53,20 @@ public class CSW {
     @GET
     @Path("/GetCapabilities")
     @Produces(MediaType.APPLICATION_XML)
-    public List<GetCapabilitie> getCapabilities(@QueryParam("REQUEST") String request,@QueryParam("AcceptVersion") String Version,@QueryParam("AcceptFormat") String format) {
-        if( request =="GetCapabilities" && Version=="2.0.2,2.0.0,1.0.7" && format=="application/xml" ){
+    public List<GetCapabilitie> getCapabilities(@QueryParam("REQUEST") String request, @QueryParam("AcceptVersion") String Version, @QueryParam("AcceptFormat") String format) {
+        if (request == "GetCapabilities" && Version == "2.0.2,2.0.0,1.0.7" && format == "application/xml") {
             return d.GetCapabilitiesRequest();
         }
         return d.GetCapabilitiesRequest();
     }
-    
     @GET
-    @Path("/PrintPicture")
-    @Produces("image/png")
-    public BufferedImage getImage() throws IOException{
-        HandlePicture img = new HandlePicture("src/main/webapp/WEB-INF/resources/","albers27.tif");
-        return img.getData();
+    @Path("/image/{name}")
+    @Produces({"image/png", "image/jpg"})
+    public Response getFullImage(@PathParam("name") String name) throws IOException {
+        BufferedImage image = ImageIO.read(new File("/home/haonguyen/data/geotiff/"+name));;
+        return Response.ok(image).build();
     }
-    
+
     @GET
     @Path("/DescribeRecord")
     @Produces(MediaType.APPLICATION_XML)
@@ -72,108 +74,79 @@ public class CSW {
         Record record = new Record();
         return record.getAllRecord();
     }
+//    
+//    @GET
+//    @Path("/test")
+//    @Produces("text/html")
+//    public Response index() throws Exception {
+//       return Response.ok(new Viewable("/master")).build();
+//    }
 
     @GET
-    @Path("/GetRecord/{format}")
-    @Produces(value = {MediaType.APPLICATION_XML})
-    public List<SummaryRecord> GetRecords(@PathParam("format") String format) throws ParseException, Exception {
-         GetRecordByFormat data = new GetRecordByFormat();
-        return data.GetByFormat(format);
-    }
-    
-    @GET
-    @Path("/test")
-    @Produces("text/html")
-    public Response index() throws Exception {
-       return Response.ok(new Viewable("/master")).build();
-    }
-
-    @GET
-    @Path("/GetRecordByID/{messageId}")
     @Produces(MediaType.APPLICATION_XML)
-    public SummaryRecord getRecordById(@PathParam("messageId") long id,@Context UriInfo uriInfor) throws ParseException, Exception {
+    public List<SummaryRecord> getRecordById(@QueryParam("GetRecordById") long id, @Context UriInfo uriInfor) throws ParseException, Exception {
         Record record = new Record();
-        SummaryRecord a = record.getRecordById(id);
-        a.addLink(getUriforSel(uriInfor,a), "sel");
-        a.addLink(getUriforProfile(uriInfor,a), "profile");
+        List<SummaryRecord> a = record.getRecordById(id);
+//        a.addLink(getUriforSel(uriInfor,a), "sel");
+//        a.addLink(getUriforProfile(uriInfor,a), "profile");
         return a;
     }
-    private String getUriforSel(UriInfo uriInfor, SummaryRecord record){
+
+    private String getUriforSel(UriInfo uriInfor, SummaryRecord record) {
         String uri = uriInfor.getBaseUriBuilder()
                 .path(CSW.class)
                 .path(Long.toString(record.getId()))
                 .build()
                 .toString();
-        
+
         return uri;
     }
+
     @GET
-    public List<SummaryRecord> getRecordyear(@QueryParam("year") int year,@QueryParam("start") int start,@QueryParam("size") int size) throws Exception {
-         Record record = new Record();
-        if (year > 0) {
-            return record.getAllRecordForYear(year);
+    @Path("/GetRecord")
+    public List<SummaryRecord> getRecordyear(@QueryParam("format") String format, @QueryParam("date1") String date1, @QueryParam("date2") String date2, @QueryParam("start") int start, @QueryParam("size") int size) throws Exception {
+        Record record = new Record();
+        if (format != null) {
+            return record.getRecordByText(format);
+        }
+        if (date1.equals(date1) && date2.equals(date2)) {
+            return record.SearchDate(date1, date2);
         }
         if (start >= 0 && size > 0) {
             return record.getAllRecordPaginated(start, size);
         }
+
         return record.getAllRecord();
     }
-//    @POST
-//    public String Harvest(@WebParam(name = "name") String txt) {
-//        return "Hello " + txt + " !";
-//    }
-//    @POST
-//    public String Transaction(@WebParam(name = "name") String txt) {
-//        return "Hello " + txt + " !";
-//    }
 
-    @POST
-    @Path("/DescribeRecord")
-    @Consumes(MediaType.APPLICATION_XML)
-    @Produces(MediaType.APPLICATION_XML)
-    public SummaryRecord addRecord(SummaryRecord add) throws ParseException, Exception {
-        ProfileService record = new ProfileService();
-        return record.addProfile(add);
-    }
-
-    @PUT
-    @Path("/DescribeRecord/{messageId}")
-    @Consumes(MediaType.APPLICATION_XML)
-    @Produces(MediaType.APPLICATION_XML)
-    public SummaryRecord updateRecord(@PathParam("messageId") long id, SummaryRecord add) throws ParseException, Exception {
-        Record record = new Record();
-        add.setId(id);
-        return record.updateRecord(add);
-    }
-
-    @DELETE
-    @Path("/DescribeRecord/{messageId}")
-    @Consumes(MediaType.APPLICATION_XML)
-    @Produces(MediaType.APPLICATION_XML)
-    public void delRecord(@PathParam("messageId") long id) throws ParseException, Exception {
-        Record record = new Record();
-
-        record.removeRecord(id);
-    }
-    
     @GET
-    @Path("/download/{name}")
+    @Path("/downloadgeotiff/{name}")
     @Produces("text/plain")
-    public Response getFile(@PathParam("name") String name) {
-        File file = new File("/home/haonguyen/data/" + name);
+    public Response getFileGeotiff(@PathParam("name") String name) {
+        File file = new File("/home/haonguyen/data/geotiff/" + name);
         ResponseBuilder response = Response.ok((Object) file);
-        response.header("Content-Disposition", "attachment; filename=DisplayName-" + name);
+        response.header("Content-Disposition", "attachment; filename=" + name);
         return response.build();
     }
-    private String getUriforProfile(UriInfo uriInfor, SummaryRecord a) {
-       URI uri = uriInfor.getBaseUriBuilder()
-               .path(CSW.class)
-               .path(CSW.class,"getRecordById")
-//               .path(a.getFormat())
-               .resolveTemplate("messageId", a.getId())
-               .build();
-               return uri.toString();
-               }
 
-    
+    @GET
+    @Path("/downloadmodis/{name}")
+    @Produces("text/plain")
+    public Response getFileModis(@PathParam("name") String name) {
+        File file = new File("/home/haonguyen/data/modis/" + name);
+        ResponseBuilder response = Response.ok((Object) file);
+        response.header("Content-Disposition", "attachment; filename=" + name);
+        return response.build();
+    }
+
+    private String getUriforProfile(UriInfo uriInfor, SummaryRecord a) {
+        URI uri = uriInfor.getBaseUriBuilder()
+                .path(CSW.class)
+                .path(CSW.class, "getRecordById")
+                //               .path(a.getFormat())
+                .resolveTemplate("messageId", a.getId())
+                .build();
+        return uri.toString();
+    }
+
 }

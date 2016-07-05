@@ -29,16 +29,16 @@
             <article class="topcontent">
                 <header>
                     <h2><a href="" title="Firt post">Search metadata</a></h2>
-                    <form>
+                    <form action="Controller" method="GET">
                         <p  class="post-infor">Format image</p>
                     
                     <content class = "text">
-                        <input type="checkbox" name="type" value="GEOTIFF"> GeoTiff
-                        <input type="checkbox" name="type" value="MODIS">   Modis
+                        <input type="checkbox" name="format" value="GEOTIFF"> GeoTiff
+                        <input type="checkbox" name="format" value="MODIS">   Modis
                     </content>
                         
                     <footer>
-                        <`p  class="post-infor">Date</p>
+                        <p  class="post-infor">Date</p>
                     </footer>
                     <content class = "text">
                         Search from <input type="date" style="width: 130px"> to <input type="date" style="width: 130px">
@@ -48,7 +48,7 @@
                         <p  class="post-infor">Coordinates</p>
                     
                     <content class = "text">
-                        <input  id="divId" type="text" style="width: 300px; height: 30px   " > 
+                        <input  id="divId" type="text" style="width: 70%; height: 30px   " > 
                     </content>
                         <br>
                         <br>
