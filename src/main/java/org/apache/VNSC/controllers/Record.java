@@ -5,20 +5,13 @@
  */
 package org.apache.VNSC.controllers;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
 import java.text.DateFormat;
 import org.apache.VNSC.controllers.ReadXML;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import org.apache.VNSCweb.exception.DataNotFoundException;
-import org.apache.VNSCweb.model.DatabaseClass;
 import org.apache.VNSCweb.model.SummaryRecord;
 
 /**
@@ -59,20 +52,21 @@ public class Record {
         b.addAll(a.listModis());
         List<SummaryRecord> messagesForYear = new ArrayList<>();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date da1= df.parse(date1);
-        Date da2= df.parse(date2);
-        
-        long day = (da2.getTime() - da1.getTime())/(24*60*60*1000);
-        
+        Date da1 = df.parse(date1);
+        Date da2 = df.parse(date2);
+
+        long day = (da2.getTime() - da1.getTime()) / (24 * 60 * 60 * 1000);
+
         for (SummaryRecord message : b) {
-           Date da3= message.getModified();
-           long day1 = (da3.getTime()- da1.getTime())/(24*60*60*1000);
+            Date da3 = message.getModified();
+            long day1 = (da3.getTime() - da1.getTime()) / (24 * 60 * 60 * 1000);
             if (day1 >= 0 && day1 <= day) {
                 messagesForYear.add(message);
             }
         }
         return messagesForYear;
     }
+
     public List<SummaryRecord> getAllRecordPaginated(int start, int size) throws Exception {
         ReadXML a = new ReadXML();
         List<SummaryRecord> b = new ArrayList<SummaryRecord>();
@@ -99,8 +93,26 @@ public class Record {
         return messagesById;
     }
 
+    public List<SummaryRecord> BoundingBox(double west , double east, double south, double north  ) throws Exception {
+        ReadXML a = new ReadXML();
+        List<SummaryRecord> b = new ArrayList<SummaryRecord>();
+        b.addAll(a.listGeotiff());
+        b.addAll(a.listModis());
+        List<SummaryRecord> messageSearch = new ArrayList<>();
+        for (SummaryRecord message : b) {
+            double west1 = message.getBoundingBox().getWestBoundLongitude();
+            double east1 = message.getBoundingBox().getEastBoundLongitude();
+            double south1 = message.getBoundingBox().getSouthBoundLongitude();
+            double north1 = message.getBoundingBox().getNorthBoundLongitude();
+            if (west1>=west && east1<= east && south1 >= south && north1 <=north) {
+                messageSearch.add(message);
+             }
+        }
+        return messageSearch;
+    }
+//
 //    public static void main(String[] args) throws Exception {
-//    Record a = new Record();
-//        System.out.println(a.getRecordByText("MOD021KM"));
+//        Record a = new Record();
+//        System.out.println(a.BoundingBox(105.19, 109.55, 14.7, 17.9));
 //    }
 }

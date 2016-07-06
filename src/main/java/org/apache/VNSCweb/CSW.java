@@ -5,23 +5,15 @@
  */
 package org.apache.VNSCweb;
 
-import com.sun.jersey.api.view.Viewable;
-import static com.sun.org.apache.xml.internal.resolver.Catalog.URI;
-import static com.sun.xml.ws.security.policy.Header.URI;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
-import java.util.Collection;
 import org.apache.VNSC.controllers.CapabilitiesRequest;
 import java.util.List;
 import javax.imageio.ImageIO;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -31,15 +23,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
-import org.apache.VNSC.controllers.HandlePicture;
-import org.apache.VNSC.controllers.ProfileService;
-import org.apache.VNSC.controllers.ReadXML;
 import org.apache.VNSC.controllers.Record;
-import org.apache.VNSCweb.exception.DataNotFoundException;
 import org.apache.VNSCweb.model.GetCapabilitie;
-import org.apache.VNSCweb.model.GetRecordByFormat;
 import org.apache.VNSCweb.model.SummaryRecord;
-import static org.glassfish.jersey.server.model.Parameter.Source.URI;
 
 /**
  *
@@ -74,13 +60,6 @@ public class CSW {
         Record record = new Record();
         return record.getAllRecord();
     }
-//    
-//    @GET
-//    @Path("/test")
-//    @Produces("text/html")
-//    public Response index() throws Exception {
-//       return Response.ok(new Viewable("/master")).build();
-//    }
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -101,10 +80,15 @@ public class CSW {
 
         return uri;
     }
-
+    @GET
+   
+    public List<SummaryRecord> getRecordyear(@QueryParam("west") double west,@QueryParam("east") double east,@QueryParam("south") double south,@QueryParam("north") double north) throws Exception {
+        Record record = new Record();
+        return record.BoundingBox(west, east, south, north);
+    }
     @GET
     @Path("/GetRecord")
-    public List<SummaryRecord> getRecordyear(@QueryParam("format") String format, @QueryParam("date1") String date1, @QueryParam("date2") String date2, @QueryParam("start") int start, @QueryParam("size") int size) throws Exception {
+    public List<SummaryRecord> getRecordyear(@QueryParam("format") String format, @QueryParam("date1") String date1, @QueryParam("date2") String date2, @QueryParam("start") int start,@QueryParam("size") int size) throws Exception {
         Record record = new Record();
         if (format != null) {
             return record.getRecordByText(format);
@@ -115,7 +99,7 @@ public class CSW {
         if (start >= 0 && size > 0) {
             return record.getAllRecordPaginated(start, size);
         }
-
+       
         return record.getAllRecord();
     }
 
@@ -143,7 +127,6 @@ public class CSW {
         URI uri = uriInfor.getBaseUriBuilder()
                 .path(CSW.class)
                 .path(CSW.class, "getRecordById")
-                //               .path(a.getFormat())
                 .resolveTemplate("messageId", a.getId())
                 .build();
         return uri.toString();
