@@ -5,14 +5,27 @@
  */
 package org.apache.VNSCweb;
 
+import com.sun.jersey.api.view.Viewable;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
+import java.util.Collection;
+import java.util.HashMap;
 import org.apache.VNSC.controllers.CapabilitiesRequest;
 import java.util.List;
+import java.util.Map;
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageInputStream;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -49,17 +62,75 @@ public class CSW {
     @Path("/image/{name}")
     @Produces({"image/png", "image/jpg"})
     public Response getFullImage(@PathParam("name") String name) throws IOException {
-        BufferedImage image = ImageIO.read(new File("/home/haonguyen/data/geotiff/"+name));;
+        ImageInputStream input = ImageIO.createImageInputStream(new File("/home/chinhvm/Documents/Metadata/jpg/"+name));
+        ImageReader reader = ImageIO.getImageReadersByFormatName("jpg").next();
+        ImageReadParam param = reader.getDefaultReadParam();
+        param.setSourceSubsampling(3, 3, 0, 0);
+        reader.setInput(input);
+        BufferedImage image = reader.read(0, param);
+		
+        
         return Response.ok(image).build();
     }
-
+    
+    @GET
+    @Path("/test")
+    public Response test() throws ParseException, Exception {
+        return Response.ok(new Viewable("/testMap")).build();
+    }
+    
     @GET
     @Path("/DescribeRecord")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<SummaryRecord> DescribeRecord() throws ParseException, Exception {
         Record record = new Record();
         return record.getAllRecord();
     }
+    @GET
+    @Path("/move")
+//    @Produces("text/html")
+    public Response move() throws Exception{       
+        Map<String,String> data = new HashMap<>();
+        data.put("fr", "tesst");
+        data.put("t", "anotherTest");
+        return Response.ok(new Viewable("/move",data)).build();
+    }
+    
+    @GET
+    @Path("/form")
+    public Response form(){
+        return Response.ok(new Viewable("/form")).build();
+    }
+    @GET
+    @Path("/GetRecordByName/{name}")
+    @Produces(value = {MediaType.APPLICATION_JSON})
+    public List<SummaryRecord> GetRecordByName(@PathParam("name") String name) throws ParseException, Exception {
+        Record a = new Record();
+        return a.getRecordByName(name);
+    }
+    
+    @GET
+    @Path("/GetRecordByFormat/{format}")
+    @Produces(value = {MediaType.APPLICATION_JSON})
+    public List<SummaryRecord> GetRecords(@PathParam("format") String format) throws ParseException, Exception {
+        Record a = new Record();
+        return a.getRecordByText(format);
+    }
+    
+    @GET
+    @Path("/GetRecordByID/{id}")
+    @Produces(value = {MediaType.APPLICATION_JSON})
+    public List<SummaryRecord> GetRecords(@PathParam("id") long id) throws ParseException, Exception {
+        Record a = new Record();
+        return a.getRecordById(id);
+    }
+//    
+//    @GET
+//    @Path("/test")
+//    @Produces("text/html")
+//    public Response index() throws Exception {
+//       return Response.ok(new Viewable("/master")).build();
+//    }
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -107,7 +178,7 @@ public class CSW {
     @Path("/downloadgeotiff/{name}")
     @Produces("text/plain")
     public Response getFileGeotiff(@PathParam("name") String name) {
-        File file = new File("/home/haonguyen/data/geotiff/" + name);
+        File file = new File("/home/chinhvm/Metadata/geotiff/" + name);
         ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition", "attachment; filename=" + name);
         return response.build();
@@ -117,7 +188,7 @@ public class CSW {
     @Path("/downloadmodis/{name}")
     @Produces("text/plain")
     public Response getFileModis(@PathParam("name") String name) {
-        File file = new File("/home/haonguyen/data/modis/" + name);
+        File file = new File("/home/chinhvm/Metadata/modis/" + name);
         ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition", "attachment; filename=" + name);
         return response.build();

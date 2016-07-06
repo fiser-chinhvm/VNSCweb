@@ -12,8 +12,14 @@
         <title>JSP Page</title>
          <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     </head>
+    <style>
+        .image{
+            width:50px;
+        }
+    </style>
     <body ng-app="App">
-        <div  ng-controller="Ctrl">
+        <div class="row">
+        <div class="col-md-6" ng-controller="Ctrl">
         <form ng-submit="submit()" ng-if="!output">
                         <label>Format image</label>
                     <content class = "text">
@@ -46,32 +52,21 @@
                         
                 </fieldset>
         </form>
-             <article>
-            <div id="map"></div>
-        </article>
+             
             
             
             
             <div ng-if="output">
-                <pre>{{output}}</pre>
-                lat1<input ng-model="search.coordinates.lat1"/> 
-                long1<input ng-model="search.coordinates.long1">
-                
-                lat2<input ng-model="search.coordinates.lat2"/> 
-                long2<input ng-model="search.coordinates.long2"/>
-                    <input ng-model="search.identifier"/>
                 <table class="table">
                     <thead>                     
                         <th>ID</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Type</th>
                     </thead><tbody>
                         <tr ng-repeat="item in output | filter:{identifier:search.identifier }| filter:bboxFilter" >
                             <td>{{item.id}}</td>
-                            <td >{{item.BoundingBox.eastBoundLongitude}}</td>
-                            <td >{{item.BoundingBox.northBoundLongitude}}</td>
-                            <td >{{item.BoundingBox.southBoundLongitude}}</td>
-                            <td >{{item.BoundingBox.westBoundLongitude}}</td>
+                            <td><img class="image" src="../../image/LC81240502014046LGN00.jpg"/></td>
                             <td><a href="move#/{{item.id}}">{{item.identifier}}</a></td>
                             <td>{{item.format}}</td>
                         </tr>
@@ -83,7 +78,8 @@
          
                 
             </div>
-        </div>
+            <div class="col-md-6"></div>
+             
        
         
         <script async defer
