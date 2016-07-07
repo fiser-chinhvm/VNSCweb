@@ -36,6 +36,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
+import org.apache.VNSC.controllers.AnyText;
 import org.apache.VNSC.controllers.Record;
 import org.apache.VNSCweb.model.GetCapabilitie;
 import org.apache.VNSCweb.model.SummaryRecord;
@@ -65,11 +66,10 @@ public class CSW {
         ImageInputStream input = ImageIO.createImageInputStream(new File("/home/chinhvm/Documents/Metadata/jpg/"+name));
         ImageReader reader = ImageIO.getImageReadersByFormatName("jpg").next();
         ImageReadParam param = reader.getDefaultReadParam();
-        param.setSourceSubsampling(3, 3, 0, 0);
+        param.setSourceSubsampling(5, 5, 0, 0);
         reader.setInput(input);
         BufferedImage image = reader.read(0, param);
 		
-        
         return Response.ok(image).build();
     }
     
@@ -101,17 +101,10 @@ public class CSW {
     public Response form(){
         return Response.ok(new Viewable("/form")).build();
     }
-    @GET
-    @Path("/GetRecordByName/{name}")
-    @Produces(value = {MediaType.APPLICATION_JSON})
-    public List<SummaryRecord> GetRecordByName(@PathParam("name") String name) throws ParseException, Exception {
-        Record a = new Record();
-        return a.getRecordByName(name);
-    }
     
     @GET
     @Path("/GetRecordByFormat/{format}")
-    @Produces(value = {MediaType.APPLICATION_JSON})
+    @Produces(value = {MediaType.APPLICATION_XML})
     public List<SummaryRecord> GetRecords(@PathParam("format") String format) throws ParseException, Exception {
         Record a = new Record();
         return a.getRecordByText(format);
@@ -151,12 +144,26 @@ public class CSW {
 
         return uri;
     }
+    
     @GET
-   
-    public List<SummaryRecord> getRecordyear(@QueryParam("west") double west,@QueryParam("east") double east,@QueryParam("south") double south,@QueryParam("north") double north) throws Exception {
-        Record record = new Record();
-        return record.BoundingBox(west, east, south, north);
+    public List<SummaryRecord> getRecordAllField(
+        @QueryParam("format") String format,
+        @QueryParam("identifier") String identifier,
+        @QueryParam("west") double west,
+        @QueryParam("east") double east,
+        @QueryParam("south") double south,
+        @QueryParam("north") double north, 
+        @QueryParam("startDate") String date1, 
+        @QueryParam("rangeDate") String date2) throws Exception{
+        
+        AnyText record = new AnyText(format, identifier, date1, date2);
+        record.setBbox(west, east, south, north);
+        record.setBbox(5,130 , 5, 130);
+        record.filter();
+     
+        return record.getData();
     }
+    
     @GET
     @Path("/GetRecord")
     public List<SummaryRecord> getRecordyear(@QueryParam("format") String format, @QueryParam("date1") String date1, @QueryParam("date2") String date2, @QueryParam("start") int start,@QueryParam("size") int size) throws Exception {
