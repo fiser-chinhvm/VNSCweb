@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.VNSCweb.model.Element;
+import org.apache.VNSCweb.model.BoundingBox;
 import org.apache.VNSCweb.model.SummaryRecord;
 
 /**
@@ -21,7 +21,7 @@ import org.apache.VNSCweb.model.SummaryRecord;
 public class AnyText {
     String format;
     String identifier;
-    Element bbox = new Element();
+    BoundingBox bbox = new BoundingBox();
     String startDate;
     String rangeDate;
     List<SummaryRecord> data = new ArrayList<SummaryRecord>();
@@ -58,7 +58,7 @@ public class AnyText {
     * True: input in Element Bound
     */
     
-    public boolean checkBBOX(double east, double west, double south, double north, Element bound){
+    public boolean checkBBOX(double east, double west, double south, double north, BoundingBox bound){
         double itWest = bound.getWestBoundLongitude();
         double itNorth = bound.getNorthBoundLongitude();
         double itSouth = bound.getSouthBoundLongitude();
@@ -122,16 +122,16 @@ public class AnyText {
         }
     }
     
-    public static void main(String[] args) throws Exception {
-        AnyText a= new AnyText("","","2009-04-04","2015-05-05");
-        AnyText b= new AnyText();
-        a.setBbox(5,130 , 5, 130);
-        a.filter();
-        System.out.println(a.getData().size());
-//        System.out.println(a.getData().get(0).getIdentifier());
-//        System.out.println(a.getData().get(0).getBoundingBox().getWestBoundLongitude());
-//        System.out.println(a.getData().get(0).getBoundingBox().getEastBoundLongitude());
-//        System.out.println(a.getData().get(0).getBoundingBox().getSouthBoundLongitude());
-//        System.out.println(a.getData().get(0).getBoundingBox().getNorthBoundLongitude());
-    }
+//    public static void main(String[] args) throws Exception {
+//        AnyText a= new AnyText("","","2009-04-04","2015-05-05");
+//        AnyText b= new AnyText();
+//        a.setBbox(5,130 , 5, 130);
+//        a.filter();
+//        System.out.println(a.getData().size());
+////        System.out.println(a.getData().get(0).getIdentifier());
+////        System.out.println(a.getData().get(0).getBoundingBox().getWestBoundLongitude());
+////        System.out.println(a.getData().get(0).getBoundingBox().getEastBoundLongitude());
+////        System.out.println(a.getData().get(0).getBoundingBox().getSouthBoundLongitude());
+////        System.out.println(a.getData().get(0).getBoundingBox().getNorthBoundLongitude());
+//    }
 }

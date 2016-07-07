@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author haonguyen
  */
 @XmlRootElement(namespace = "http://www.opengis.net/ows")
-public class Element {
+public class BoundingBox {
 
     private String[] Version;
     private String[] OutputFormat;

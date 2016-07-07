@@ -11,21 +11,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
-import java.util.Collection;
 import java.util.HashMap;
 import org.apache.VNSC.controllers.CapabilitiesRequest;
 import java.util.List;
 import java.util.Map;
-import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageInputStream;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -37,6 +30,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
 import org.apache.VNSC.controllers.AnyText;
+import org.apache.VNSC.controllers.ReadConfiguePath;
 import org.apache.VNSC.controllers.Record;
 import org.apache.VNSCweb.model.GetCapabilitie;
 import org.apache.VNSCweb.model.SummaryRecord;
@@ -49,7 +43,7 @@ import org.apache.VNSCweb.model.SummaryRecord;
 public class CSW {
 
     CapabilitiesRequest d = new CapabilitiesRequest();
-
+    ReadConfiguePath path = new ReadConfiguePath();
     @GET
     @Path("/GetCapabilities")
     @Produces(MediaType.APPLICATION_XML)
@@ -63,7 +57,7 @@ public class CSW {
     @Path("/image/{name}")
     @Produces({"image/png", "image/jpg"})
     public Response getFullImage(@PathParam("name") String name) throws IOException {
-        ImageInputStream input = ImageIO.createImageInputStream(new File("/home/chinhvm/Documents/Metadata/jpg/"+name));
+        ImageInputStream input = ImageIO.createImageInputStream(new File(path.getPropValues()+"/image/"+name));
         ImageReader reader = ImageIO.getImageReadersByFormatName("jpg").next();
         ImageReadParam param = reader.getDefaultReadParam();
         param.setSourceSubsampling(5, 5, 0, 0);
@@ -182,24 +176,15 @@ public class CSW {
     }
 
     @GET
-    @Path("/downloadgeotiff/{name}")
+    @Path("/download/{name}")
     @Produces("text/plain")
-    public Response getFileGeotiff(@PathParam("name") String name) {
-        File file = new File("/home/chinhvm/Metadata/geotiff/" + name);
+    public Response getFileGeotiff(@PathParam("name") String name) throws IOException {
+        File file = new File(path.getPropValues()+"/" + name);
         ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition", "attachment; filename=" + name);
         return response.build();
     }
 
-    @GET
-    @Path("/downloadmodis/{name}")
-    @Produces("text/plain")
-    public Response getFileModis(@PathParam("name") String name) {
-        File file = new File("/home/chinhvm/Metadata/modis/" + name);
-        ResponseBuilder response = Response.ok((Object) file);
-        response.header("Content-Disposition", "attachment; filename=" + name);
-        return response.build();
-    }
 
     private String getUriforProfile(UriInfo uriInfor, SummaryRecord a) {
         URI uri = uriInfor.getBaseUriBuilder()

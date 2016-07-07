@@ -22,7 +22,7 @@ public class SummaryRecord {
     private String type;
     private String format;
     private Date modified;
-    private Element BoundingBox;
+    private BoundingBox BoundingBox;
     private List<Link> links = new ArrayList<>();
 
     public List<Link> getLinks() {
@@ -38,7 +38,7 @@ public class SummaryRecord {
     public SummaryRecord() {
 
     }
-    public SummaryRecord(long id, String identifier,String title, String type, String format, Date modified, Element BoundingBox) {
+    public SummaryRecord(long id, String identifier,String title, String type, String format, Date modified, BoundingBox BoundingBox) {
         this.id = id;
         this.identifier=identifier;
         this.title = title;
@@ -98,11 +98,11 @@ public class SummaryRecord {
     }
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "BoundingBox")
-     public Element getBoundingBox() {
+     public BoundingBox getBoundingBox() {
         return BoundingBox;
     }
 
-    public void setBoundingBox(Element BoundingBox) {
+    public void setBoundingBox(BoundingBox BoundingBox) {
         this.BoundingBox = BoundingBox;
     }
     public void addLink(String url,String rel){

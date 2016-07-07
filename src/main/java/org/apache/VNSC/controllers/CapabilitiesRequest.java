@@ -10,7 +10,7 @@ package org.apache.VNSC.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.VNSCweb.model.Capacibilities;
-import org.apache.VNSCweb.model.Element;
+import org.apache.VNSCweb.model.BoundingBox;
 import org.apache.VNSCweb.model.GetCapabilitie;
 
 /**
