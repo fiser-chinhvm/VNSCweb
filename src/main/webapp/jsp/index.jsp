@@ -29,7 +29,7 @@
             <article class="topcontent">
                 <header>
                     <h2><a href="" title="Firt post">Search metadata</a></h2>
-                    <form action="Controller" method="GET">
+                    <form action="jsp/geotiff.jsp" method="POST" >
                         <p  class="post-infor">Format image</p>
                     
                     <content class = "text">
@@ -41,19 +41,19 @@
                         <p  class="post-infor">Date</p>
                     </footer>
                     <content class = "text">
-                        Search from <input type="date" style="width: 130px"> to <input type="date" style="width: 130px">
-                       <br>
-                        Search month <input type="month">
+                        Search from <input  name="date1" type="date" style="width: 130px"> to <input name="date2" type="date" style="width: 130px">
+                      
                     </content>
                         <p  class="post-infor">Coordinates</p>
                     
                     <content class = "text">
-                        <input  id="divId" type="text" style="width: 70%; height: 30px   " > 
+                        <input  id="divId" type="text" style="width: 70%; height: 30px"  name="divid" > 
+        
                     </content>
                         <br>
                         <br>
                         <div class="Button">
-                        <input class="button" type="submit" name="REQUEST" value="submit">
+                            <input type="submit"  >
                         </div>
                     </form>
                 </header>
@@ -76,5 +76,6 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP1jtGKFo80FQZ9BC1nOD5c0c0Mhk4Ivo&callback=initMap">
     </script>
     
+
 </body>
 </html>

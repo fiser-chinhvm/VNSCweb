@@ -75,7 +75,7 @@ public class CSW {
     
     @GET
     @Path("/DescribeRecord")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_XML)
     public List<SummaryRecord> DescribeRecord() throws ParseException, Exception {
         Record record = new Record();
         return record.getAllRecord();
@@ -106,7 +106,7 @@ public class CSW {
     
     @GET
     @Path("/GetRecordByID/{id}")
-    @Produces(value = {MediaType.APPLICATION_JSON})
+    @Produces(value = {MediaType.APPLICATION_XML})
     public List<SummaryRecord> GetRecords(@PathParam("id") long id) throws ParseException, Exception {
         Record a = new Record();
         return a.getRecordById(id);
@@ -119,7 +119,7 @@ public class CSW {
 //       return Response.ok(new Viewable("/master")).build();
 //    }
 
-    @GET
+    @GET   
     @Produces(MediaType.APPLICATION_XML)
     public List<SummaryRecord> getRecordById(@QueryParam("GetRecordById") long id, @Context UriInfo uriInfor) throws ParseException, Exception {
         Record record = new Record();
@@ -140,6 +140,8 @@ public class CSW {
     }
     
     @GET
+    @Path("/Search")
+    @Produces(MediaType.APPLICATION_XML)
     public List<SummaryRecord> getRecordAllField(
         @QueryParam("format") String format,
         @QueryParam("identifier") String identifier,
