@@ -7,55 +7,70 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome to VNSC web project</title>
         <link  rel="stylesheet" href="css/myweb.css" type="text/css">
-         <script src="javascript/main.js" />"></script>
+         <meta name="viewport" content="width=devide-width,initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+         <script src="javascript/main.js" /></script>
         <meta name="viewport" content="width=devide-width,initial-scale=1.0"
     </head>
 
-    <body class="body" >
-    <header class ="mainheader">
-        <img src="image/image.png">
-        <marquee direction="right" ><h2 style="color: #fd1616">TRUNG TÂM VỆ TINH QUỐC GIA - VIETNAM NATIONAL SATELLITE CENTER</h2></marquee>
+    <body background="image/bg.jpg" class="mainBody" >
+        <header class="mainheader">
+        <div>
+            <div class="links-top row"> 
+                <span class="col-md-9"></span>
+                <span class="col-md-1 link-box"><a class="link-text" href="#">Home</a></span>
+                <span class="col-md-1 link-box"><a class="link-text" href="#">Q&A</a></span>
+                <span class="col-md-1 link-box"><a class="link-text" href="#">About</a></span>
+            </div>
+            <div class="row background-title">
+                <div class="col-md-4"><img style="width:80%" src="image/image.png"></div>
+                <div></div>
+                <div class="col-md-7 title"><marquee direction="right"> Trung Tâm Vệ Tinh Quốc Gia</marquee></div>
+            </div>
+            <div class="links-bottom"></div>
+        </div>
+        </header>
 
-  
-
-                <nav><ul>
-                <li><a href="" class="active">Home</a></li>
-                <li><a href="">About</a></li>
-                <li><a href="">Contact</a></li>
-            </ul></nav> 
-    </header>
     <div class="mainContent" >
         <div  class="content">
-            <article class="topcontent">
-                <header>
-                    <h2><a href="" title="Firt post">Search metadata</a></h2>
-                    <form action="jsp/geotiff.jsp" method="POST" >
-                        <p  class="post-infor">Format image</p>
-                    
-                    <content class = "text">
-                        <input type="checkbox" name="format" value="GEOTIFF"> GeoTiff
-                        <input type="checkbox" name="format" value="MODIS">   Modis
-                    </content>
+            <article class="left-content">
+                <div>
+                    <div  class="post-info"><label>Search Result</label></div>
+                    <form class="search-form" action="jsp/geotiff.jsp" method="POST" >
+                        <div class="row content-search">
+                            <div class="col-md-3"><label>Name</label></div>
+                            <div class="col-md-9"><input class="form-control" type="text" name="identifier"/></div>
+                        </div>
+                        <div class="row content-search">
+                            <div class="col-md-3"><label>Format</label></div>
+                            <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" value="GEOTIFF" name="format">Geotiff</label></div>
+                            <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" value="MODIS" name="format">Modis</label></div>              
+                        </div>
                         
-                    <footer>
-                        <p  class="post-infor">Date</p>
-                    </footer>
-                    <content class = "text">
-                        Search from <input  name="date1" type="date" style="width: 130px"> to <input name="date2" type="date" style="width: 130px">
-                      
-                    </content>
-                        <p  class="post-infor">Coordinates</p>
+                    <label style="font-size:20px;">Date</label>
+                    <div class="row content-search">
+                        <div class="col-md-3"><label>From</label></div>
+                        <div class="col-md-9"><input class="form-control" type="date" name="date1"/></div>
+
+                    </div>
+                    <div class="row content-search">
+                        <div class="col-md-3"><label>To</label></div>
+                        <div class="col-md-9"><input class="form-control" type="date" name="date2"/></div>
                     
-                    <content class = "text">
-                        <input  id="divId" type="text" style="width: 70%; height: 30px"  name="divid" > 
-        
-                    </content>
-                        <br>
-                        <br>
+                    </div>
+                        
+                    <label style="font-size:20px;">Coordinate</label>
+                    <div class="row content-search">
+                        <div class="col-md-3"><label>BoundingBox</label></div>
+                        <div class="col-md-9"><input class="form-control" id="divId" name="divid" ></div>
+                    </div>
                         <div class="Button">
-                            <input type="submit"  >
+                            <input type="submit" />
                         </div>
                     </form>
+                    
                 </header>
             </article>
         </div>
