@@ -22,17 +22,17 @@ import org.opengis.metadata.extent.GeographicBoundingBox;
 import org.opengis.metadata.identification.Identification;
 
 /**
- *
- * @author haonguyen
+ * @author Thi Phuong Hao NGUYEN
+ * @author Minh Chinh VU
  */
-public class ReadXML {
+public class XMLReader {
     
     
-      ReadConfiguePath path = new ReadConfiguePath();
+      ConfigurationReader path = new ConfigurationReader();
 
     public List<SummaryRecord> listModis() throws Exception {
         //get all the files from a directory
-        ReadConfiguePath path = new ReadConfiguePath();
+        ConfigurationReader path = new ConfigurationReader();
         List<SummaryRecord> record = new ArrayList<>();
         File directory = new File(path.getPropValues());
         //get all the files from a directory
@@ -57,8 +57,8 @@ public class ReadXML {
                 BoundingBox bbox = new BoundingBox();
                 bbox.setWestBoundLongitude(west);
                 bbox.setEastBoundLongitude(east);
-                bbox.setSouthBoundLongitude(south);
-                bbox.setNorthBoundLongitude(north);
+                bbox.setSouthBoundLatitude(south);
+                bbox.setNorthBoundLatitude(north);
                 SummaryRecord m1 = new SummaryRecord(i, identifier, title, "xml", format, Modified, bbox);
                 record.add(m1);
                 i++;
@@ -99,8 +99,8 @@ public class ReadXML {
                 BoundingBox bbox = new BoundingBox();
                 bbox.setWestBoundLongitude(west);
                 bbox.setEastBoundLongitude(east);
-                bbox.setSouthBoundLongitude(south);
-                bbox.setNorthBoundLongitude(north);
+                bbox.setSouthBoundLatitude(south);
+                bbox.setNorthBoundLatitude(north);
                 SummaryRecord m1 = new SummaryRecord(i, identifier, title, "txt", format, Modified, bbox);
                 record.add(m1);
                 i++;

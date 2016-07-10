@@ -39,6 +39,10 @@
                 if (format==='null'){
                 format = "";
     }
+    var identifier = "<%= request.getParameter("identifier")%>";
+     if (identifier==='null'){
+                identifier = "";
+    }
                 var myString = "<%= request.getParameter("divid")%>";
                 var mySplitResult;
                 mySplitResult = myString.split(",");
@@ -59,7 +63,7 @@
                     north = "";
                 }
 
-                xhttp.open("GET", "http://localhost:8080/MavenWebProject/VNSC/csw/Search?format="+format+"&identifier=&west=" + west + "&east=" + east + "&south=" + south + "&north=" + north + "&startDate=<%= request.getParameter("date1")%>&rangeDate=<%= request.getParameter("date2")%>", true);
+                xhttp.open("GET", "http://localhost:8080/MavenWebProject/VNSC/csw/Search?format="+format+"&identifier="+identifier+"&west=" + west + "&east=" + east + "&south=" + south + "&north=" + north + "&startDate=<%= request.getParameter("date1")%>&rangeDate=<%= request.getParameter("date2")%>", true);
                 xhttp.send();
 //                document.write("http://localhost:8080/MavenWebProject/VNSC/csw/Search?format="+format+"&identifier=&west=" +west + "&east=" + east + "&south=" + south + "&north=" + north + "&startDate="+date1+"&rangeDate="+date2);
             }
@@ -120,8 +124,8 @@
                         "<tr><td>Type</td><td>" + metadata.getElementsByTagName("type")[0].childNodes[0].nodeValue + "</td></tr>" +
                         "<tr><td>east</td><td>" + bbox[0].getElementsByTagName("eastBoundLongitude")[0].childNodes[0].nodeValue + "</td></tr>" +
                         "<tr><td>west</td><td>" + bbox[0].getElementsByTagName("westBoundLongitude")[0].childNodes[0].nodeValue + "</td></tr>" +
-                        "<tr><td>south</td><td>" + bbox[0].getElementsByTagName("southBoundLongitude")[0].childNodes[0].nodeValue + "</td></tr>" +
-                        "<tr><td>north</td><td>" + bbox[0].getElementsByTagName("northBoundLongitude")[0].childNodes[0].nodeValue + "</td></tr>";
+                        "<tr><td>south</td><td>" + bbox[0].getElementsByTagName("southBoundLatitude")[0].childNodes[0].nodeValue + "</td></tr>" +
+                        "<tr><td>north</td><td>" + bbox[0].getElementsByTagName("northBoundLatitude")[0].childNodes[0].nodeValue + "</td></tr>";
 
 
                 document.getElementById("detail").innerHTML = table;

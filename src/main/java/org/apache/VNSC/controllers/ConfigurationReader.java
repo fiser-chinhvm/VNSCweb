@@ -17,7 +17,7 @@ import java.util.Properties;
  *
  * @author haonguyen
  */
-public class ReadConfiguePath {
+public class ConfigurationReader {
 
     String result = "";
     InputStream inputStream;

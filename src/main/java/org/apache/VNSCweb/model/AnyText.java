@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.apache.VNSC.controllers;
+package org.apache.VNSCweb.model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.VNSC.controllers.XMLReader;
 import org.apache.VNSCweb.model.BoundingBox;
 import org.apache.VNSCweb.model.SummaryRecord;
 
 /**
- *
- * @author chinhvm
+ * @author Thi Phuong Hao NGUYEN
+ * @author Minh Chinh VU
  */
 public class AnyText {
     String format;
@@ -27,7 +28,7 @@ public class AnyText {
     List<SummaryRecord> data = new ArrayList<SummaryRecord>();
 
     public AnyText() throws Exception {
-        ReadXML a = new ReadXML();
+        XMLReader a = new XMLReader();
         data.addAll(a.listGeotiff());
         data.addAll(a.listModis());
     }
@@ -39,12 +40,12 @@ public class AnyText {
     public void setBbox(double west , double east, double south, double north) {
         bbox.setEastBoundLongitude(east);
         bbox.setWestBoundLongitude(west);
-        bbox.setNorthBoundLongitude(north);
-        bbox.setSouthBoundLongitude(south);
+        bbox.setNorthBoundLatitude(north);
+        bbox.setSouthBoundLatitude(south);
     }
     
     public AnyText(String format, String identifier, String startDate, String rangeDate) throws Exception {
-        ReadXML a = new ReadXML();
+        XMLReader a = new XMLReader();
         data.addAll(a.listGeotiff());
         data.addAll(a.listModis());
         this.format = format;
@@ -60,8 +61,8 @@ public class AnyText {
     
     public boolean checkBBOX(double east, double west, double south, double north, BoundingBox bound){
         double itWest = bound.getWestBoundLongitude();
-        double itNorth = bound.getNorthBoundLongitude();
-        double itSouth = bound.getSouthBoundLongitude();
+        double itNorth = bound.getNorthBoundLatitude();
+        double itSouth = bound.getSouthBoundLatitude();
         double itEast = bound.getEastBoundLongitude();
         
         if(east < itWest) return false;
@@ -89,8 +90,8 @@ public class AnyText {
     public void filter() throws Exception{
         double east = bbox.getEastBoundLongitude();
         double west = bbox.getWestBoundLongitude();
-        double south = bbox.getSouthBoundLongitude();
-        double north = bbox.getNorthBoundLongitude();
+        double south = bbox.getSouthBoundLatitude();
+        double north = bbox.getNorthBoundLatitude();
         
         for (Iterator<SummaryRecord> it=data.iterator(); it.hasNext();) {
             SummaryRecord itSum = it.next();

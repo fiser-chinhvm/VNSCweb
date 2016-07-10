@@ -29,8 +29,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
-import org.apache.VNSC.controllers.AnyText;
-import org.apache.VNSC.controllers.ReadConfiguePath;
+import org.apache.VNSCweb.model.AnyText;
+import org.apache.VNSC.controllers.ConfigurationReader;
 import org.apache.VNSC.controllers.Record;
 import org.apache.VNSCweb.model.GetCapabilitie;
 import org.apache.VNSCweb.model.SummaryRecord;
@@ -43,7 +43,7 @@ import org.apache.VNSCweb.model.SummaryRecord;
 public class CSW {
 
     CapabilitiesRequest d = new CapabilitiesRequest();
-    ReadConfiguePath path = new ReadConfiguePath();
+    ConfigurationReader path = new ConfigurationReader();
     @GET
     @Path("/GetCapabilities")
     @Produces(MediaType.APPLICATION_XML)

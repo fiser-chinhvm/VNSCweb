@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author haonguyen
+ * @author Thi Phuong Hao NGUYEN
+ * @author Minh Chinh VU
  */
 @XmlRootElement(namespace = "http://www.opengis.net/ows")
 public class BoundingBox {
@@ -19,8 +19,8 @@ public class BoundingBox {
     private String[] OutputFormat;
     private String parameterName;
     private double westBoundLongitude;
-    private double northBoundLongitude;
-    private double southBoundLongitude;
+    private double northBoundLatitude;
+    private double southBoundLatitude;
     private double eastBoundLongitude;
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "Version")
@@ -41,22 +41,22 @@ public class BoundingBox {
         this.westBoundLongitude = westBoundLongitude;
     }
 
-    @XmlElement(namespace = "http://www.opengis.net/ows", name = "northBoundLongitude")
-    public double getNorthBoundLongitude() {
-        return northBoundLongitude;
+    @XmlElement(namespace = "http://www.opengis.net/ows", name = "northBoundLatitude")
+    public double getNorthBoundLatitude() {
+        return northBoundLatitude;
     }
 
-    public void setNorthBoundLongitude(double northBoundLongitude) {
-        this.northBoundLongitude = northBoundLongitude;
+    public void setNorthBoundLatitude(double northBoundLongitude) {
+        this.northBoundLatitude = northBoundLongitude;
     }
 
-    @XmlElement(namespace = "http://www.opengis.net/ows", name = "southBoundLongitude")
-    public double getSouthBoundLongitude() {
-        return southBoundLongitude;
+    @XmlElement(namespace = "http://www.opengis.net/ows", name = "southBoundLatitude")
+    public double getSouthBoundLatitude() {
+        return southBoundLatitude;
     }
 
-    public void setSouthBoundLongitude(double southBoundLongitude) {
-        this.southBoundLongitude = southBoundLongitude;
+    public void setSouthBoundLatitude(double southBoundLongitude) {
+        this.southBoundLatitude = southBoundLongitude;
     }
 
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "eastBoundLongitude")

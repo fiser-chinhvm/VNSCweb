@@ -7,7 +7,7 @@ package org.apache.VNSC.controllers;
 
 
 import java.text.DateFormat;
-import org.apache.VNSC.controllers.ReadXML;
+import org.apache.VNSC.controllers.XMLReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +16,8 @@ import org.apache.VNSCweb.model.SummaryRecord;
 
 /**
  *
- * @author haonguyen
+ * @author Thi Phuong Hao NGUYEN
+ * @author Minh Chinh VU
  */
 public class Record {
 
@@ -24,7 +25,7 @@ public class Record {
     }
 
     public List<SummaryRecord> getAllRecord() throws Exception {
-        ReadXML a = new ReadXML();
+        XMLReader a = new XMLReader();
         List<SummaryRecord> b = new ArrayList<SummaryRecord>();
         b.addAll(a.listGeotiff());
         b.addAll(a.listModis());
@@ -32,7 +33,7 @@ public class Record {
     }
 
     public List<SummaryRecord> getRecordByText(String format) throws Exception {
-        ReadXML a = new ReadXML();
+        XMLReader a = new XMLReader();
         List<SummaryRecord> b = new ArrayList<SummaryRecord>();
         b.addAll(a.listGeotiff());
         b.addAll(a.listModis());
@@ -46,7 +47,7 @@ public class Record {
     }
 
     public List<SummaryRecord> SearchDate(String date1, String date2) throws Exception {
-        ReadXML a = new ReadXML();
+        XMLReader a = new XMLReader();
         List<SummaryRecord> b = new ArrayList<SummaryRecord>();
         b.addAll(a.listGeotiff());
         b.addAll(a.listModis());
@@ -68,7 +69,7 @@ public class Record {
     }
 
     public List<SummaryRecord> getAllRecordPaginated(int start, int size) throws Exception {
-        ReadXML a = new ReadXML();
+        XMLReader a = new XMLReader();
         List<SummaryRecord> b = new ArrayList<SummaryRecord>();
         b.addAll(a.listGeotiff());
         b.addAll(a.listModis());
@@ -80,7 +81,7 @@ public class Record {
     }
 
     public List<SummaryRecord> getRecordById(long id) throws Exception {
-        ReadXML a = new ReadXML();
+        XMLReader a = new XMLReader();
         List<SummaryRecord> b = new ArrayList<SummaryRecord>();
         b.addAll(a.listGeotiff());
         b.addAll(a.listModis());
@@ -94,7 +95,7 @@ public class Record {
     }
 
     public List<SummaryRecord> BoundingBox(double west , double east, double south, double north  ) throws Exception {
-        ReadXML a = new ReadXML();
+        XMLReader a = new XMLReader();
         List<SummaryRecord> b = new ArrayList<SummaryRecord>();
         b.addAll(a.listGeotiff());
         b.addAll(a.listModis());
@@ -102,8 +103,8 @@ public class Record {
         for (SummaryRecord message : b) {
             double west1 = message.getBoundingBox().getWestBoundLongitude();
             double east1 = message.getBoundingBox().getEastBoundLongitude();
-            double south1 = message.getBoundingBox().getSouthBoundLongitude();
-            double north1 = message.getBoundingBox().getNorthBoundLongitude();
+            double south1 = message.getBoundingBox().getSouthBoundLatitude();
+            double north1 = message.getBoundingBox().getNorthBoundLatitude();
             if (west1>=west && east1<= east && south1 >= south && north1 <=north) {
                 messageSearch.add(message);
              }
