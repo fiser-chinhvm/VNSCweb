@@ -111,9 +111,9 @@ public class Record {
         }
         return messageSearch;
     }
-//
-//    public static void main(String[] args) throws Exception {
-//        Record a = new Record();
-//        System.out.println(a.BoundingBox(105.19, 109.55, 14.7, 17.9));
-//    }
+
+    public static void main(String[] args) throws Exception {
+        Record a = new Record();
+        System.out.println(a.getAllRecord());
+    }
 }

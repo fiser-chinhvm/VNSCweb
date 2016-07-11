@@ -63,7 +63,7 @@
                     north = "";
                 }
 
-                xhttp.open("GET", "http://localhost:8080/MavenWebProject/VNSC/csw/Search?format="+format+"&identifier="+identifier+"&west=" + west + "&east=" + east + "&south=" + south + "&north=" + north + "&startDate=<%= request.getParameter("date1")%>&rangeDate=<%= request.getParameter("date2")%>", true);
+                xhttp.open("GET", "http://localhost:8080/MavenWebProject/VNSC/csw/2.0.2/GetRecord?format="+format+"&identifier="+identifier+"&west=" + west + "&east=" + east + "&south=" + south + "&north=" + north + "&startDate=<%= request.getParameter("date1")%>&rangeDate=<%= request.getParameter("date2")%>", true);
                 xhttp.send();
 //                document.write("http://localhost:8080/MavenWebProject/VNSC/csw/Search?format="+format+"&identifier=&west=" +west + "&east=" + east + "&south=" + south + "&north=" + north + "&startDate="+date1+"&rangeDate="+date2);
             }
@@ -73,7 +73,7 @@
 
                 var table = "<tr><th>STT</th><th>Image</th><th>Name</th><th>Format</th><th>Download</th></tr>";
 
-                var x = xmlDoc.getElementsByTagName("SummaryRecord");
+                var x = xmlDoc.getElementsByTagName("Record");
                 //   console.log(x[0].getElementsByTagName("dc:identifier")[0].childNodes[0].nodeValue);
                 //   console.log(x[0].getElementsByTagName("dc:format")[0].childNodes[0].nodeValue);
                 for (i = 0; i < x.length; i++) {
@@ -81,7 +81,7 @@
                     table += "<tr><td>" +
                             stt +
                             "</td><td>" +
-                            "<img class='image' src='http://localhost:8080/MavenWebProject/VNSC/csw/image/" +
+                            "<img class='image' src='http://localhost:8080/MavenWebProject/VNSC/wcs/image/" +
                             x[i].getElementsByTagName("identifier")[0].childNodes[0].nodeValue + ".jpg'/>" +
                             "</td><td>" +
                             "<a href='#' onclick='loadMetadata(" + x[i].getElementsByTagName("id")[0].childNodes[0].nodeValue + ")'>" +
@@ -89,7 +89,7 @@
                             "</td><td>" +
                             x[i].getElementsByTagName("format")[0].childNodes[0].nodeValue +
                             "</td><td>" +
-                            "<a href = 'http://localhost:8080/MavenWebProject/VNSC/csw/download/" + x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue + "'><button >Download</button></a>" +
+                            "<a href = 'http://localhost:8080/MavenWebProject/VNSC/csw/2.0.2/download/" + x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue + "'><button >Download</button></a>" +
                             "</td></tr>";
                 }
                 //  console.log(table);
@@ -106,22 +106,26 @@
                         tableMetadata(getXML);
                     }
                 };
-                getXML.open("GET", "http://localhost:8080/MavenWebProject/VNSC/csw/GetRecordByID/" + id, true);
+                getXML.open("GET", "http://localhost:8080/MavenWebProject/VNSC/csw/2.0.2/GetRecordById?Id=" + id, true);
                 getXML.send();
             }
 
             function tableMetadata(x) {
                 var doc = x.responseXML;
-                var metadata = doc.getElementsByTagName("SummaryRecord")[0];
+                var metadata = doc.getElementsByTagName("Record")[0];
                 var bbox = metadata.getElementsByTagName("BoundingBox");
 
                 console.log(bbox[0].getElementsByTagName("eastBoundLongitude")[0].childNodes[0].nodeValue);
                 var table = "<tr><th>Field</th><th>Detail</th></tr>";
                 table += "<tr><td>ID</td><td>" + metadata.getElementsByTagName("id")[0].childNodes[0].nodeValue + "</td></tr>" +
-                        "<tr><td>Name</td><td>" + metadata.getElementsByTagName("identifier")[0].childNodes[0].nodeValue + "</td></tr>" +
-                        "<tr><td>Format</td><td>" + metadata.getElementsByTagName("format")[0].childNodes[0].nodeValue + "</td></tr>" +
-                        "<tr><td>Date Modified</td><td>" + metadata.getElementsByTagName("modified")[0].childNodes[0].nodeValue + "</td></tr>" +
+                        "<tr><td>Name</td><td>" + metadata.getElementsByTagName("name")[0].childNodes[0].nodeValue + "</td></tr>" +
+                        "<tr><td>Title</td><td>" + metadata.getElementsByTagName("title")[0].childNodes[0].nodeValue + "</td></tr>" +
+                        "<tr><td>Subject</td><td>" + metadata.getElementsByTagName("Subject")[0].childNodes[0].nodeValue + "</td></tr>" +
+                        "<tr><td>Date</td><td>" + metadata.getElementsByTagName("modified")[0].childNodes[0].nodeValue + "</td></tr>" +
                         "<tr><td>Type</td><td>" + metadata.getElementsByTagName("type")[0].childNodes[0].nodeValue + "</td></tr>" +
+                        "<tr><td>Format</td><td>" + metadata.getElementsByTagName("format")[0].childNodes[0].nodeValue + "</td></tr>" +
+                        "<tr><td>Identifier</td><td>" + metadata.getElementsByTagName("identifier")[0].childNodes[0].nodeValue + "</td></tr>" +
+                        "<tr><td>Language</td><td>" + metadata.getElementsByTagName("language")[0].childNodes[0].nodeValue + "</td></tr>" +
                         "<tr><td>east</td><td>" + bbox[0].getElementsByTagName("eastBoundLongitude")[0].childNodes[0].nodeValue + "</td></tr>" +
                         "<tr><td>west</td><td>" + bbox[0].getElementsByTagName("westBoundLongitude")[0].childNodes[0].nodeValue + "</td></tr>" +
                         "<tr><td>south</td><td>" + bbox[0].getElementsByTagName("southBoundLatitude")[0].childNodes[0].nodeValue + "</td></tr>" +

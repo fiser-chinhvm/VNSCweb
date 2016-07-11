@@ -32,6 +32,7 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.VNSCweb.model.AnyText;
 import org.apache.VNSC.controllers.ConfigurationReader;
 import org.apache.VNSC.controllers.Record;
+import org.apache.VNSC.controllers.XMLReader;
 import org.apache.VNSCweb.model.GetCapabilitie;
 import org.apache.VNSCweb.model.SummaryRecord;
 
@@ -39,11 +40,12 @@ import org.apache.VNSCweb.model.SummaryRecord;
  *
  * @author haonguyen
  */
-@Path("/csw")
+@Path("/csw/2.0.2")
 public class CSW {
 
     CapabilitiesRequest d = new CapabilitiesRequest();
     ConfigurationReader path = new ConfigurationReader();
+
     @GET
     @Path("/GetCapabilities")
     @Produces(MediaType.APPLICATION_XML)
@@ -53,26 +55,7 @@ public class CSW {
         }
         return d.GetCapabilitiesRequest();
     }
-    @GET
-    @Path("/image/{name}")
-    @Produces({"image/png", "image/jpg"})
-    public Response getFullImage(@PathParam("name") String name) throws IOException {
-        ImageInputStream input = ImageIO.createImageInputStream(new File(path.getPropValues()+"/image/"+name));
-        ImageReader reader = ImageIO.getImageReadersByFormatName("jpg").next();
-        ImageReadParam param = reader.getDefaultReadParam();
-        param.setSourceSubsampling(5, 5, 0, 0);
-        reader.setInput(input);
-        BufferedImage image = reader.read(0, param);
-		
-        return Response.ok(image).build();
-    }
-    
-    @GET
-    @Path("/test")
-    public Response test() throws ParseException, Exception {
-        return Response.ok(new Viewable("/testMap")).build();
-    }
-    
+
     @GET
     @Path("/DescribeRecord")
     @Produces(MediaType.APPLICATION_XML)
@@ -81,120 +64,42 @@ public class CSW {
         return record.getAllRecord();
     }
     @GET
-    @Path("/move")
-//    @Produces("text/html")
-    public Response move() throws Exception{       
-        Map<String,String> data = new HashMap<>();
-        data.put("fr", "tesst");
-        data.put("t", "anotherTest");
-        return Response.ok(new Viewable("/move",data)).build();
-    }
-    
-    @GET
-    @Path("/form")
-    public Response form(){
-        return Response.ok(new Viewable("/form")).build();
-    }
-    
-    @GET
-    @Path("/GetRecordByFormat/{format}")
-    @Produces(value = {MediaType.APPLICATION_XML})
-    public List<SummaryRecord> GetRecords(@PathParam("format") String format) throws ParseException, Exception {
-        Record a = new Record();
-        return a.getRecordByText(format);
-    }
-    
-    @GET
-    @Path("/GetRecordByID/{id}")
-    @Produces(value = {MediaType.APPLICATION_XML})
-    public List<SummaryRecord> GetRecords(@PathParam("id") long id) throws ParseException, Exception {
-        Record a = new Record();
-        return a.getRecordById(id);
-    }
-//    
-//    @GET
-//    @Path("/test")
-//    @Produces("text/html")
-//    public Response index() throws Exception {
-//       return Response.ok(new Viewable("/master")).build();
-//    }
-
-    @GET   
+    @Path("/GetRecordById")
     @Produces(MediaType.APPLICATION_XML)
-    public List<SummaryRecord> getRecordById(@QueryParam("GetRecordById") long id, @Context UriInfo uriInfor) throws ParseException, Exception {
+    public List<SummaryRecord> getRecordById(@QueryParam("Id") long id) throws ParseException, Exception {
         Record record = new Record();
         List<SummaryRecord> a = record.getRecordById(id);
-//        a.addLink(getUriforSel(uriInfor,a), "sel");
-//        a.addLink(getUriforProfile(uriInfor,a), "profile");
+        SummaryRecord b = new SummaryRecord();
         return a;
     }
-
-    private String getUriforSel(UriInfo uriInfor, SummaryRecord record) {
-        String uri = uriInfor.getBaseUriBuilder()
-                .path(CSW.class)
-                .path(Long.toString(record.getId()))
-                .build()
-                .toString();
-
-        return uri;
-    }
-    
-    @GET
-    @Path("/Search")
-    @Produces(MediaType.APPLICATION_XML)
-    public List<SummaryRecord> getRecordAllField(
-        @QueryParam("format") String format,
-        @QueryParam("identifier") String identifier,
-        @QueryParam("west") double west,
-        @QueryParam("east") double east,
-        @QueryParam("south") double south,
-        @QueryParam("north") double north, 
-        @QueryParam("startDate") String date1, 
-        @QueryParam("rangeDate") String date2) throws Exception{
-        
-        AnyText record = new AnyText(format, identifier, date1, date2);
-        record.setBbox(west, east, south, north);
-        record.setBbox(5,130 , 5, 130);
-        record.filter();
-     
-        return record.getData();
-    }
-    
     @GET
     @Path("/GetRecord")
-    public List<SummaryRecord> getRecordyear(@QueryParam("format") String format, @QueryParam("date1") String date1, @QueryParam("date2") String date2, @QueryParam("start") int start,@QueryParam("size") int size) throws Exception {
-        Record record = new Record();
-        if (format != null) {
-            return record.getRecordByText(format);
-        }
-        if (date1.equals(date1) && date2.equals(date2)) {
-            return record.SearchDate(date1, date2);
-        }
-        if (start >= 0 && size > 0) {
-            return record.getAllRecordPaginated(start, size);
-        }
-       
-        return record.getAllRecord();
+    @Produces(MediaType.APPLICATION_XML)
+    public List<SummaryRecord> getRecordAllField(
+            @QueryParam("format") String format,
+            @QueryParam("identifier") String identifier,
+            @QueryParam("west") double west,
+            @QueryParam("east") double east,
+            @QueryParam("south") double south,
+            @QueryParam("north") double north,
+            @QueryParam("startDate") String date1,
+            @QueryParam("rangeDate") String date2) throws Exception {
+
+        AnyText record = new AnyText(format, identifier, date1, date2);
+        record.setBbox(west, east, south, north);
+        record.setBbox(5, 130, 5, 130);
+        record.filter();
+
+        return record.getData();
     }
 
     @GET
     @Path("/download/{name}")
     @Produces("text/plain")
     public Response getFileGeotiff(@PathParam("name") String name) throws IOException {
-        File file = new File(path.getPropValues()+"/" + name);
+        File file = new File(path.getPropValues() + "/" + name);
         ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition", "attachment; filename=" + name);
         return response.build();
     }
-
-
-    private String getUriforProfile(UriInfo uriInfor, SummaryRecord a) {
-        URI uri = uriInfor.getBaseUriBuilder()
-                .path(CSW.class)
-                .path(CSW.class, "getRecordById")
-                .resolveTemplate("messageId", a.getId())
-                .build();
-        return uri.toString();
-    }
-
 }

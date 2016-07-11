@@ -17,6 +17,7 @@ import static org.apache.sis.internal.util.CollectionsExt.first;
 import org.apache.sis.storage.geotiff.LandsatReader;
 import org.apache.sis.xml.XML;
 import org.opengis.metadata.Metadata;
+import org.opengis.metadata.citation.Responsibility;
 import org.opengis.metadata.extent.Extent;
 import org.opengis.metadata.extent.GeographicBoundingBox;
 import org.opengis.metadata.identification.Identification;
@@ -26,9 +27,8 @@ import org.opengis.metadata.identification.Identification;
  * @author Minh Chinh VU
  */
 public class XMLReader {
-    
-    
-      ConfigurationReader path = new ConfigurationReader();
+
+    ConfigurationReader path = new ConfigurationReader();
 
     public List<SummaryRecord> listModis() throws Exception {
         //get all the files from a directory
@@ -44,12 +44,21 @@ public class XMLReader {
                 Identification id = first(ModisMD.getIdentificationInfo());
                 Extent et = first(id.getExtents());
                 GeographicBoundingBox gbd = (GeographicBoundingBox) first(et.getGeographicElements());
-
-                String identifier = first(id.getCitation().getIdentifiers()).getCode();
+                String name = file.getName();
+                String identifier = ModisMD.getFileIdentifier();
 
                 String format = id.getCitation().getTitle().toString();
-                String title = file.getName();
-                Date Modified = first(id.getCitation().getDates()).getDate();
+                String title = id.getCitation().getTitle().toString();
+                String type = first(ModisMD.getHierarchyLevels()).name();
+                Date modified = ModisMD.getDateStamp();
+               String suject = first(id.getTopicCategories()).IMAGERY_BASE_MAPS_EARTH_COVER.toString();
+//                List<Responsibility> responsibility = new ArrayList<>(first(ModisMD.getIdentificationInfo()).getPointOfContacts());
+                String creator = "";
+                String publisher = "";
+                String contributor = "";
+//
+               String language = ModisMD.getLanguage().toString();
+                String relation = first(id.getAggregationInfo()).getAggregateDataSetName().getTitle().toString();
                 double west = gbd.getWestBoundLongitude();
                 double east = gbd.getEastBoundLongitude();
                 double south = gbd.getSouthBoundLatitude();
@@ -59,7 +68,7 @@ public class XMLReader {
                 bbox.setEastBoundLongitude(east);
                 bbox.setSouthBoundLatitude(south);
                 bbox.setNorthBoundLatitude(north);
-                SummaryRecord m1 = new SummaryRecord(i, identifier, title, "xml", format, Modified, bbox);
+                SummaryRecord m1 = new SummaryRecord(i, name,identifier, title, type, format, modified, suject, creator, publisher, contributor, language, relation, bbox);
                 record.add(m1);
                 i++;
             }
@@ -67,10 +76,9 @@ public class XMLReader {
 
         return record;
     }
-
     public List<SummaryRecord> listGeotiff() throws Exception {
         //get all the files from a directory
-       
+
         List<SummaryRecord> record = new ArrayList<>();
         File directory = new File(path.getPropValues());
         //get all the files from a directory
@@ -85,13 +93,21 @@ public class XMLReader {
                 Identification id = first(LandsatMD.getIdentificationInfo());
                 Extent et = first(id.getExtents());
                 GeographicBoundingBox gbd = (GeographicBoundingBox) first(et.getGeographicElements());
+                String name = file.getName();
+                String identifier = LandsatMD.getFileIdentifier();
 
-                String identifier = first(id.getCitation().getIdentifiers()).getCode();
+                String format = first(first(LandsatMD.getDistributionInfo()).getDistributionFormats()).getName().toString();
+                String title = id.getCitation().getTitle().toString();
+                String type = first(LandsatMD.getHierarchyLevels()).name();
+                Date modified = LandsatMD.getDateStamp();
+                String suject = first(first(id.getDescriptiveKeywords()).getKeywords()).toString();
+                List<Responsibility> responsibility = new ArrayList<>(first(LandsatMD.getIdentificationInfo()).getPointOfContacts());
+                String creator = first(responsibility.get(0).getParties()).getName().toString();
+                String publisher = first(responsibility.get(1).getParties()).getName().toString();
+                String contributor = first(responsibility.get(2).getParties()).getName().toString();
 
-                String format = first(id.getResourceFormats()).getFormatSpecificationCitation().getTitle().toString();
-                String title = file.getName();
-                Date Modified = first(id.getCitation().getDates()).getDate();
-
+                String language = LandsatMD.getLanguage().toString();
+                String relation = first(id.getAggregationInfo()).getAggregateDataSetName().getTitle().toString();
                 double west = gbd.getWestBoundLongitude();
                 double east = gbd.getEastBoundLongitude();
                 double south = gbd.getSouthBoundLatitude();
@@ -101,7 +117,7 @@ public class XMLReader {
                 bbox.setEastBoundLongitude(east);
                 bbox.setSouthBoundLatitude(south);
                 bbox.setNorthBoundLatitude(north);
-                SummaryRecord m1 = new SummaryRecord(i, identifier, title, "txt", format, Modified, bbox);
+                SummaryRecord m1 = new SummaryRecord(i, name,identifier, title, type, format, modified, suject, creator, publisher, contributor, language, relation, bbox);
                 record.add(m1);
                 i++;
             }
@@ -111,9 +127,11 @@ public class XMLReader {
     }
 
 //    public static void main(String[] args) throws Exception {
-//        ReadXML test = new ReadXML();
-//        System.out.println(test.listModis());
+//
+//     XMLReader test = new XMLReader() ;
+//    
 //        System.out.println(test.listGeotiff());
+//        System.out.println(test.listModis());
 //
 //    }
 }
