@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
 import java.util.HashMap;
-import org.apache.VNSC.controllers.CapabilitiesRequest;
 import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
@@ -29,12 +28,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
-import org.apache.VNSCweb.model.AnyText;
-import org.apache.VNSC.controllers.ConfigurationReader;
-import org.apache.VNSC.controllers.Record;
-import org.apache.VNSC.controllers.XMLReader;
-import org.apache.VNSCweb.model.GetCapabilitie;
-import org.apache.VNSCweb.model.SummaryRecord;
+import org.apache.sis.services.csw.AnyText;
+import org.apache.sis.services.csw.CapabilitiesRequest;
+import org.apache.sis.services.csw.ConfigurationReader;
+import org.apache.sis.services.csw.GetCapabilitie;
+import org.apache.sis.services.csw.Record;
+import org.apache.sis.services.csw.SummaryRecord;
 
 /**
  *
@@ -66,10 +65,9 @@ public class CSW {
     @GET
     @Path("/GetRecordById")
     @Produces(MediaType.APPLICATION_XML)
-    public List<SummaryRecord> getRecordById(@QueryParam("Id") long id) throws ParseException, Exception {
+    public SummaryRecord getRecordById(@QueryParam("Id") int id) throws ParseException, Exception {
         Record record = new Record();
-        List<SummaryRecord> a = record.getRecordById(id);
-        SummaryRecord b = new SummaryRecord();
+        SummaryRecord a = record.getRecordById(id);
         return a;
     }
     @GET
