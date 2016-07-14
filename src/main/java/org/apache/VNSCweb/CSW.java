@@ -65,31 +65,31 @@ public class CSW {
     @GET
     @Path("/GetRecordById")
     @Produces(MediaType.APPLICATION_XML)
-    public SummaryRecord getRecordById(@QueryParam("Id") int id) throws ParseException, Exception {
+    public SummaryRecord getRecordById(@QueryParam("Id") String id) throws ParseException, Exception {
         Record record = new Record();
         SummaryRecord a = record.getRecordById(id);
         return a;
     }
-    @GET
-    @Path("/GetRecord")
-    @Produces(MediaType.APPLICATION_XML)
-    public List<SummaryRecord> getRecordAllField(
-            @QueryParam("format") String format,
-            @QueryParam("identifier") String identifier,
-            @QueryParam("west") double west,
-            @QueryParam("east") double east,
-            @QueryParam("south") double south,
-            @QueryParam("north") double north,
-            @QueryParam("startDate") String date1,
-            @QueryParam("rangeDate") String date2) throws Exception {
-
-        AnyText record = new AnyText(format, identifier, date1, date2);
-        record.setBbox(west, east, south, north);
-        record.setBbox(5, 130, 5, 130);
-        record.filter();
-
-        return record.getData();
-    }
+//    @GET
+//    @Path("/GetRecord")
+//    @Produces(MediaType.APPLICATION_XML)
+//    public List<SummaryRecord> getRecordAllField(
+//            @QueryParam("format") String format,
+//            @QueryParam("identifier") String identifier,
+//            @QueryParam("west") double west,
+//            @QueryParam("east") double east,
+//            @QueryParam("south") double south,
+//            @QueryParam("north") double north,
+//            @QueryParam("startDate") String date1,
+//            @QueryParam("rangeDate") String date2) throws Exception {
+//
+//        AnyText record = new AnyText(format, identifier, date1, date2);
+//        record.setBbox(west, east, south, north);
+//        record.setBbox(5, 130, 5, 130);
+//        record.filter();
+//
+//        return record.getData();
+//    }
 
     @GET
     @Path("/download/{name}")

@@ -15,12 +15,15 @@
  * limitations under the License. 
  */
 @XmlSchema(
+        elementFormDefault=javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
         xmlns = {
             @XmlNs(prefix = "csw", namespaceURI = "http://www.opengis.net/cat/csw/2.0.2"),
-            @XmlNs(prefix = "ows", namespaceURI = "http://www.opengis.net/ows"),
             @XmlNs(prefix = "dc", namespaceURI = "http://purl.org/dc/elements/1.1/"),
-            @XmlNs(prefix = "dct", namespaceURI = "http://purl.org/dc/terms")
-        })
+            @XmlNs(prefix = "dct", namespaceURI = "http://purl.org/dc/terms"),
+            @XmlNs(prefix = "ows", namespaceURI = "http://www.opengis.net/ows"),
+            @XmlNs(prefix = "xsi", namespaceURI = "http://www.w3.org/2001/XMLSchema-instance")
+        },location = "http://www.opengis.net/cat/csw/2.0.2"+"http://schemas.opengis.net/csw/2.0.2/record.xsd" )
+
 package org.apache.sis.services.csw;
 
 import javax.xml.bind.annotation.XmlNs;
