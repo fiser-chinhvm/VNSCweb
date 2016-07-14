@@ -5,8 +5,7 @@
  */
 package org.apache.VNSCweb;
 
-import com.sun.jersey.api.view.Viewable;
-import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -70,26 +69,26 @@ public class CSW {
         SummaryRecord a = record.getRecordById(id);
         return a;
     }
-//    @GET
-//    @Path("/GetRecord")
-//    @Produces(MediaType.APPLICATION_XML)
-//    public List<SummaryRecord> getRecordAllField(
-//            @QueryParam("format") String format,
-//            @QueryParam("identifier") String identifier,
-//            @QueryParam("west") double west,
-//            @QueryParam("east") double east,
-//            @QueryParam("south") double south,
-//            @QueryParam("north") double north,
-//            @QueryParam("startDate") String date1,
-//            @QueryParam("rangeDate") String date2) throws Exception {
-//
-//        AnyText record = new AnyText(format, identifier, date1, date2);
-//        record.setBbox(west, east, south, north);
-//        record.setBbox(5, 130, 5, 130);
-//        record.filter();
-//
-//        return record.getData();
-//    }
+    @GET
+    @Path("/GetRecord")
+    @Produces(MediaType.APPLICATION_XML)
+    public List<SummaryRecord> getRecordAllField(
+            @QueryParam("format") String format,
+            @QueryParam("identifier") String identifier,
+            @QueryParam("west") double west,
+            @QueryParam("east") double east,
+            @QueryParam("south") double south,
+            @QueryParam("north") double north,
+            @QueryParam("startDate") String date1,
+            @QueryParam("rangeDate") String date2) throws Exception {
+
+        AnyText record = new AnyText(format, identifier, date1, date2);
+        record.setBbox(west, east, south, north);
+        record.setBbox(5, 130, 5, 130);
+        record.filter();
+
+        return record.getData();
+    }
 
     @GET
     @Path("/download/{name}")
