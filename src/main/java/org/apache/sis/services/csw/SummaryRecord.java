@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author haonguyen
  */
-@XmlRootElement(namespace = "http://www.opengis.net/cat/csw/2.0.2", name = "Record")
+@XmlRootElement(namespace = Element.CSW, name = "Record")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "creator",
@@ -46,29 +46,29 @@ import javax.xml.bind.annotation.XmlType;
 
 public class SummaryRecord {
 
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+    @XmlElement(namespace = Element.DUBLIN_CORE)
     private String creator;
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+    @XmlElement(namespace = Element.DUBLIN_CORE)
     private String contributor;
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+    @XmlElement(namespace = Element.DUBLIN_CORE)
     private String publisher;
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+    @XmlElement(namespace = Element.DUBLIN_CORE)
     private String subject;
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+    @XmlElement(namespace = Element.DUBLIN_CORE)
     private String identifier;
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+    @XmlElement(namespace = Element.DUBLIN_CORE)
     private String relation;
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+    @XmlElement(namespace = Element.DUBLIN_CORE)
     private String type;
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+    @XmlElement(namespace = Element.DUBLIN_CORE)
     private String title;
-    @XmlElement(namespace = "http://purl.org/dc/terms")
+    @XmlElement(namespace = Element.DUBLIN_TERMS)
     private Date modified;
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+    @XmlElement(namespace = Element.DUBLIN_CORE)
     private String language;
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+    @XmlElement(namespace = Element.DUBLIN_CORE)
     private String format;
-    @XmlElement(namespace = "http://www.opengis.net/ows")
+    @XmlElement(namespace = Element.OWS)
     private BoundingBox BoundingBox;
 
     public SummaryRecord() {

@@ -135,18 +135,18 @@ public class AnyText {
         }
     }
     
-    public static void main(String[] args) throws Exception {
-        AnyText a= new AnyText("","","2009-04-04","2015-05-05");
-        AnyText b= new AnyText();
-        a.setBbox(5,130 , 5, 130);
-        a.filter();
-        System.out.println(a.getData().size());
-        String test[];
-//        test = a.getData().get(0).getBoundingBox().getUpperCorner().split(" ");
-//        System.out.println(test[1]+"  " + test[0]);
-//        System.out.println(a.getData().get(0).getBoundingBox().getWestBoundLongitude());
-//        System.out.println(a.getData().get(0).getBoundingBox().getEastBoundLongitude());
-//        System.out.println(a.getData().get(0).getBoundingBox().getSouthBoundLongitude());
-//        System.out.println(a.getData().get(0).getBoundingBox().getNorthBoundLongitude());
-    }
+//    public static void main(String[] args) throws Exception {
+//        AnyText a= new AnyText("","","2009-04-04","2015-05-05");
+//        AnyText b= new AnyText();
+//        a.setBbox(5,130 , 5, 130);
+//        a.filter();
+//        System.out.println(a.getData().size());
+//        String test[];
+////        test = a.getData().get(0).getBoundingBox().getUpperCorner().split(" ");
+////        System.out.println(test[1]+"  " + test[0]);
+////        System.out.println(a.getData().get(0).getBoundingBox().getWestBoundLongitude());
+////        System.out.println(a.getData().get(0).getBoundingBox().getEastBoundLongitude());
+////        System.out.println(a.getData().get(0).getBoundingBox().getSouthBoundLongitude());
+////        System.out.println(a.getData().get(0).getBoundingBox().getNorthBoundLongitude());
+//    }
 }
