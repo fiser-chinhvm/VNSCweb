@@ -44,9 +44,25 @@ public class BoundingBox {
     @XmlElement(namespace = Element.OWS)
     private String UpperCorner;
 
-    /* Creates a new, initially empty, bounding box. 
-     * This constructor is invoked by JAXB at unmarshalling time. 
+    public String getLowerCorner() {
+        return LowerCorner;
+    }
+
+    public void setLowerCorner(String LowerCorner) {
+        this.LowerCorner = LowerCorner;
+    }
+
+    public void setUpperCorner(String UpperCorner) {
+        this.UpperCorner = UpperCorner;
+    }
+
+    /* Creates a new, initially empty, bounding box.
+     * This constructor is invoked by JAXB at unmarshalling time.
      */
+    public String getUpperCorner() {
+        return UpperCorner;
+    }
+
     BoundingBox() {
     }
 
