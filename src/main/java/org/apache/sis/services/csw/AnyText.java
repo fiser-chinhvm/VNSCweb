@@ -86,6 +86,9 @@ public class AnyText {
  * @throws Exception Constructs a new exception with the specified detail message.
  */
     public AnyText(String format, String identifier, String startDate, String rangeDate) throws Exception {
+        bbox.setLowerCorner(-180 + " " + -180);
+        bbox.setUpperCorner(180 + " " + 180);
+        
         XMLReader a = new XMLReader();
         data.addAll(a.Metadata());
         this.format = format;
@@ -103,7 +106,7 @@ public class AnyText {
      * @param bound
      * @return true 
      */
-    public boolean checkBBOX(double east, double west, double south, double north, BoundingBox bound) {
+    public boolean checkBBOX(BoundingBox bound) {
         String lower[] = bound.getLowerCorner().split(" ");
         String upper[] = bound.getUpperCorner().split(" ");
 
@@ -111,7 +114,16 @@ public class AnyText {
         double itNorth = Double.parseDouble(upper[1]);
         double itSouth = Double.parseDouble(lower[1]);
         double itEast = Double.parseDouble(upper[0]);
+        
+        String bboxLower[] = bbox.getLowerCorner().split(" ");
+        String bboxUpper[] = bbox.getUpperCorner().split(" ");
 
+        double west = Double.parseDouble(lower[0]);
+        double north = Double.parseDouble(upper[1]);
+        double south = Double.parseDouble(lower[1]);
+        double east = Double.parseDouble(upper[0]);
+       
+        
         if (east < itWest) {
             return false;
         }
@@ -156,17 +168,9 @@ public class AnyText {
      * search.
      */
     public void filter() throws Exception {
-        String lower[] = bbox.getLowerCorner().split(" ");
-        String upper[] = bbox.getUpperCorner().split(" ");
-
-        double west = Double.parseDouble(lower[0]);
-        double north = Double.parseDouble(upper[1]);
-        double south = Double.parseDouble(lower[1]);
-        double east = Double.parseDouble(upper[0]);
 
         for (Iterator<SummaryRecord> it = data.iterator(); it.hasNext();) {
             SummaryRecord itSum = it.next();
-
             /**
              * Remove Out of range Date.
              */
@@ -197,11 +201,25 @@ public class AnyText {
             /**
              * Remove picture out of BBOX range.
              */ 
-            if (!checkBBOX(east, west, south, north, itSum.getBoundingBox())) {
+            if (!checkBBOX(itSum.getBoundingBox())) {
                 it.remove();
                 continue;
             }
-
         }
+    }
+    
+    public static void main(String[] args) throws Exception {
+        AnyText a= new AnyText("MOD","","2000-04-04","2016-05-05");
+        AnyText b= new AnyText();
+//        a.setBbox(-45,130 , -45, 130);
+        a.filter();
+        System.out.println(a.getData().get(0).getIdentifier());
+        System.out.println(a.getData().get(1).getIdentifier());
+//        test = a.getData().get(0).getBoundingBox().getUpperCorner().split(" ");
+//        System.out.println(test[1]+"  " + test[0]);
+//        System.out.println(a.getData().get(0).getBoundingBox().getWestBoundLongitude());
+//        System.out.println(a.getData().get(0).getBoundingBox().getEastBoundLongitude());
+//        System.out.println(a.getData().get(0).getBoundingBox().getSouthBoundLongitude());
+//        System.out.println(a.getData().get(0).getBoundingBox().getNorthBoundLongitude());
     }
 }
