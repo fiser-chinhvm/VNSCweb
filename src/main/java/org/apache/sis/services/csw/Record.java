@@ -16,10 +16,7 @@
  */ 
 package org.apache.sis.services.csw;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +29,13 @@ public class Record {
     public Record() {
     }
 
+    
+    /**
+     * Return all record of metadata
+     *
+     * @return
+     * @throws Exception
+     */
     public List<SummaryRecord> getAllRecord() throws Exception {
         XMLReader a = new XMLReader();
         List<SummaryRecord> b = new ArrayList<SummaryRecord>();
@@ -39,40 +43,14 @@ public class Record {
         return b;
     }
 
-    public List<SummaryRecord> getRecordByText(String format) throws Exception {
-        XMLReader a = new XMLReader();
-        List<SummaryRecord> b = new ArrayList<SummaryRecord>();
-        b.addAll(a.Metadata());
-        List<SummaryRecord> messagesByText = new ArrayList<>();
-        for (SummaryRecord message : b) {
-            if (message.getFormat().equals(format)) {
-                messagesByText.add(message);
-            }
-        }
-        return messagesByText;
-    }
-
-    public List<SummaryRecord> SearchDate(String date1, String date2) throws Exception {
-        XMLReader a = new XMLReader();
-        List<SummaryRecord> b = new ArrayList<SummaryRecord>();
-        b.addAll(a.Metadata());
-        List<SummaryRecord> messagesForYear = new ArrayList<>();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date da1 = df.parse(date1);
-        Date da2 = df.parse(date2);
-
-        long day = (da2.getTime() - da1.getTime()) / (24 * 60 * 60 * 1000);
-
-        for (SummaryRecord message : b) {
-            Date da3 = message.getModified();
-            long day1 = (da3.getTime() - da1.getTime()) / (24 * 60 * 60 * 1000);
-            if (day1 >= 0 && day1 <= day) {
-                messagesForYear.add(message);
-            }
-        }
-        return messagesForYear;
-    }
-
+    /**
+     * Return All Record Paginated
+     *
+     * @param start
+     * @param size
+     * @return
+     * @throws Exception
+     */
     public List<SummaryRecord> getAllRecordPaginated(int start, int size) throws Exception {
         XMLReader a = new XMLReader();
         List<SummaryRecord> b = new ArrayList<SummaryRecord>();
@@ -84,6 +62,13 @@ public class Record {
         return list.subList(start, start + size);
     }
 
+    /**
+     * Return record by id
+     *
+     * @param id
+     * @return Record with id = identifier.
+     * @throws Exception
+     */
     public SummaryRecord getRecordById(String id) throws Exception {
         XMLReader a = new XMLReader();
         List<SummaryRecord> b = new ArrayList<SummaryRecord>();
@@ -107,5 +92,4 @@ public class Record {
         }
         return messagesById;
     }
-
 }

@@ -36,28 +36,44 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(namespace = "http://www.opengis.net/ows")
 public class Capacibilities {
 
+    /**
+     * Version for service.
+     */
     private String[] Version;
+    /**
+     * Format that service reponse.
+     */
     private String[] OutputFormat;
-    
 
+    /**
+     * Return version for service.
+     */
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "Version")
     public String[] getVersion() {
         return Version;
     }
 
+    /**
+     * Set version for service.
+     */
     public void setVersion(String[] Version) {
         this.Version = Version;
     }
+
+    /**
+     * Return format that service reponse.
+     */
     @XmlElement(namespace = "http://www.opengis.net/ows", name = "OutputFormat")
     public String[] getOutputFormat() {
         return OutputFormat;
     }
 
+    /**
+     * Set format that service reponse.
+     */
     public void setOutputFormat(String[] OutputFormat) {
         this.OutputFormat = OutputFormat;
     }
-
-    
 
 }
 

@@ -30,9 +30,18 @@ import java.util.Properties;
  */
 public class ConfigurationReader {
 
+    /**
+     * The values in propeties.
+     */
     String result = "";
+    /**
+     * The propeties is used.
+     */
     InputStream inputStream;
 
+    /**
+     * Return the values in propeties.
+     */
     public String getPropValues() throws IOException {
 
         try {
@@ -46,7 +55,10 @@ public class ConfigurationReader {
             } else {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
-            // get the property value and print it out
+            /**
+             * Get the property value and print it out.
+             *
+             */
             String path = prop.getProperty("Path");
             result = path;
         } catch (Exception e) {
@@ -56,9 +68,4 @@ public class ConfigurationReader {
         }
         return result;
     }
-
-//    public static void main(String[] args) throws IOException {
-//        ReadConfiguePath b = new ReadConfiguePath();
-//        System.out.println(b.getPropValues());
-//    }
 }
