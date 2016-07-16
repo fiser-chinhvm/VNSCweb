@@ -46,7 +46,7 @@
                         <div class="row content-search">
                             <div class="col-md-3"><label>Format</label></div>
                             <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" value="GEOTIFF" name="format">Geotiff</label></div>
-                            <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" value="MOD021KM" name="format">Modis</label></div>              
+                            <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" value="MOD" name="format">Modis</label></div>              
                         </div>
                         
                     <label style="font-size:20px;">Date</label>
