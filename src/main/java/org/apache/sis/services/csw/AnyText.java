@@ -53,8 +53,8 @@ public class AnyText {
     List<SummaryRecord> data = new ArrayList<SummaryRecord>();
 
     public AnyText() throws Exception {
-        XMLReader a = new XMLReader();
-        data.addAll(a.Metadata());
+        Record a = new Record();
+        data.addAll(a.getAllRecord());
     }
 
     /**
@@ -89,8 +89,8 @@ public class AnyText {
         bbox.setLowerCorner(-180 + " " + -180);
         bbox.setUpperCorner(180 + " " + 180);
         
-        XMLReader a = new XMLReader();
-        data.addAll(a.Metadata());
+        Record a = new Record();
+        data.addAll(a.getAllRecord());
         this.format = format;
         this.identifier = identifier;
         this.startDate = startDate;
@@ -206,20 +206,5 @@ public class AnyText {
                 continue;
             }
         }
-    }
-    
-    public static void main(String[] args) throws Exception {
-        AnyText a= new AnyText("MOD","","2000-04-04","2016-05-05");
-        AnyText b= new AnyText();
-//        a.setBbox(-45,130 , -45, 130);
-        a.filter();
-        System.out.println(a.getData().get(0).getIdentifier());
-        System.out.println(a.getData().get(1).getIdentifier());
-//        test = a.getData().get(0).getBoundingBox().getUpperCorner().split(" ");
-//        System.out.println(test[1]+"  " + test[0]);
-//        System.out.println(a.getData().get(0).getBoundingBox().getWestBoundLongitude());
-//        System.out.println(a.getData().get(0).getBoundingBox().getEastBoundLongitude());
-//        System.out.println(a.getData().get(0).getBoundingBox().getSouthBoundLongitude());
-//        System.out.println(a.getData().get(0).getBoundingBox().getNorthBoundLongitude());
     }
 }
