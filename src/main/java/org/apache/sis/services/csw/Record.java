@@ -1,19 +1,19 @@
-/* 
- * Licensed to the Apache Software Foundation (ASF) under one or more 
- * contributor license agreements.  See the NOTICE file distributed with 
- * this work for additional information regarding copyright ownership. 
- * The ASF licenses this file to You under the Apache License, Version 2.0 
- * (the "License"); you may not use this file except in compliance with 
- * the License.  You may obtain a copy of the License at 
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0 
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- * See the License for the specific language governing permissions and 
- * limitations under the License. 
- */ 
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.sis.services.csw;
 
 import java.io.BufferedReader;
@@ -34,13 +34,29 @@ import org.opengis.metadata.extent.Extent;
 import org.opengis.metadata.extent.GeographicBoundingBox;
 import org.opengis.metadata.identification.Identification;
 
+
 /**
  *
- * @author Thi Phuong Hao NGUYEN
- * @author Minh Chinh VU
+ * @author  Thi Phuong Hao Nguyen (VNSC)
+ * @author  Minh Chinh Vu (VNSC)
+ * @since   0.8
+ * @version 0.8
+ * @module
  */
 public class Record {
-Map<String, SummaryRecord> record;
+    
+    Map<String, SummaryRecord> record;
+    /**
+     * Contructor's Record
+     * @throws IOException the general class of exceptions produced by failed or
+     * interrupted I/O operations
+     * @throws DataStoreException if an error occurred while reading a metadata
+     * file.
+     * @throws Exception Exception checked exceptions. Checked exceptions need to be
+     * declared in a method or constructor's {@code throws} clause if they can
+     * be thrown by the execution of the method or constructor and propagate
+     * outside the method or constructor boundary. 
+     */
     public Record() throws IOException, DataStoreException, Exception {
         ConfigurationReader path = new ConfigurationReader();
         File directory = new File(path.getPropValues());
@@ -65,24 +81,8 @@ Map<String, SummaryRecord> record;
             } else {
                 continue;
             }
-            Identification id = first(md.getIdentificationInfo());
-            SummaryRecord summary = new SummaryRecord();
             String key = md.getFileIdentifier();
-            summary.setIdentifier(md.getFileIdentifier());
-            summary.setFormat(first(first(md.getDistributionInfo()).getDistributionFormats()).getName().toString());
-            summary.setTitle(id.getCitation().getTitle().toString());
-            summary.setType(first(md.getHierarchyLevels()).name());
-            summary.setModified(md.getDateStamp());
-            summary.setSubject(first(first(id.getDescriptiveKeywords()).getKeywords()).toString());
-            List<Responsibility> responsibility = new ArrayList<>(first(md.getIdentificationInfo()).getPointOfContacts());
-            summary.setCreator(first(responsibility.get(0).getParties()).getName().toString());
-            summary.setPublisher(first(responsibility.get(1).getParties()).getName().toString());
-            summary.setContributor(first(responsibility.get(2).getParties()).getName().toString());
-            summary.setLanguage(md.getLanguage().toString());
-            summary.setRelation(first(id.getAggregationInfo()).getAggregateDataSetName().getTitle().toString());
-            Extent et = first(id.getExtents());
-            GeographicBoundingBox gbd = (GeographicBoundingBox) first(et.getGeographicElements());
-            summary.setBoundingBox(new BoundingBox(gbd));
+            SummaryRecord summary = new SummaryRecord(md);
             record.put(key, summary);
         }
     }

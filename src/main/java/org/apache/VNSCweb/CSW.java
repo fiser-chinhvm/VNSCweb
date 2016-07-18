@@ -75,7 +75,6 @@ public class CSW {
 
         AnyText record = new AnyText(format, identifier, date1, date2);
         record.setBbox(west, east, south, north);
-        record.setBbox(5, 130, 5, 130);
         record.filter();
 
         return record.getData();

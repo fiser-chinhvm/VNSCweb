@@ -1,19 +1,19 @@
-/* 
- * Licensed to the Apache Software Foundation (ASF) under one or more 
- * contributor license agreements.  See the NOTICE file distributed with 
- * this work for additional information regarding copyright ownership. 
- * The ASF licenses this file to You under the Apache License, Version 2.0 
- * (the "License"); you may not use this file except in compliance with 
- * the License.  You may obtain a copy of the License at 
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0 
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- * See the License for the specific language governing permissions and 
- * limitations under the License. 
- */ 
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.sis.services.csw;
 
 import java.text.DateFormat;
@@ -24,11 +24,14 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * @author Thi Phuong Hao NGUYEN
- * @author Minh Chinh VU
+ * @author Thi Phuong Hao Nguyen (VNSC)
+ * @author Minh Chinh Vu (VNSC)
+ * @since 0.8
+ * @version 0.8
+ * @module
  */
 public class AnyText {
-    
+
     /**
      * The physical or digital manifestation of the resource use to search.
      */
@@ -52,43 +55,55 @@ public class AnyText {
     String rangeDate;
     List<SummaryRecord> data = new ArrayList<SummaryRecord>();
 
+    /**
+     * Constructor for AnyText
+     *
+     * @throws Exception checked exceptions. Checked exceptions need to be
+     * declared in a method or constructor's {@code throws} clause if they can
+     * be thrown by the execution of the method or constructor and propagate
+     * outside the method or constructor boundary.
+     */
     public AnyText() throws Exception {
         Record a = new Record();
         data.addAll(a.getAllRecord());
     }
 
     /**
-     * 
-     * @return 
+     * Return metadata
+     *
+     * @return data
      */
     public List<SummaryRecord> getData() {
         return data;
     }
 
     /**
-     * Set a bouding box use to search record
-     * @param west
-     * @param east
-     * @param south
-     * @param north 
+     * Sets a bounding box use to search record.
+     *
+     * @param west The value is expressed in longitude in decimal degrees
+     * (positive east)
+     * @param east The value is expressed in longitude in decimal degrees
+     * (positive east)
+     * @param south The value is expressed in latitude in decimal degrees
+     * (positive north).
+     * @param north The value is expressed in latitude in decimal degrees
+     * (positive north).
      */
-    
     public void setBbox(double west, double east, double south, double north) {
         bbox.setLowerCorner(west + " " + south);
         bbox.setUpperCorner(east + " " + north);
     }
 /**
- * AnyText use to search
- * @param format
- * @param identifier
- * @param startDate
- * @param rangeDate
- * @throws Exception Constructs a new exception with the specified detail message.
- */
+     * AnyText used to search.
+     *
+     * @param format the physical or digital manifestation of the resource
+     * @param identifier a unique reference to the record within the catalogue
+     * @param startDate date from
+     * @param rangeDate date to
+     * @throws Exception Constructs a new exception with the specified detail
+     * message.
+     */
     public AnyText(String format, String identifier, String startDate, String rangeDate) throws Exception {
-        bbox.setLowerCorner(-180 + " " + -180);
-        bbox.setUpperCorner(180 + " " + 180);
-        
         Record a = new Record();
         data.addAll(a.getAllRecord());
         this.format = format;
@@ -98,15 +113,19 @@ public class AnyText {
     }
 
     /**
-     * CheckBox 
-     * @param east
-     * @param west
-     * @param south
-     * @param north
-     * @param bound
-     * @return true 
+     * Set Bouding Box 
+     * @param west The value is expressed in longitude in decimal degrees
+     * (positive east)
+     * @param east The value is expressed in longitude in decimal degrees
+     * (positive east)
+     * @param south The value is expressed in latitude in decimal degrees
+     * (positive north).
+     * @param north The value is expressed in latitude in decimal degrees
+     * (positive north).
+     * @param bound bounding box
+     * @return bounding box define 
      */
-    public boolean checkBBOX(BoundingBox bound) {
+    public boolean checkBBOX(double east, double west, double south, double north, BoundingBox bound) {
         String lower[] = bound.getLowerCorner().split(" ");
         String upper[] = bound.getUpperCorner().split(" ");
 
@@ -114,16 +133,7 @@ public class AnyText {
         double itNorth = Double.parseDouble(upper[1]);
         double itSouth = Double.parseDouble(lower[1]);
         double itEast = Double.parseDouble(upper[0]);
-        
-        String bboxLower[] = bbox.getLowerCorner().split(" ");
-        String bboxUpper[] = bbox.getUpperCorner().split(" ");
 
-        double west = Double.parseDouble(lower[0]);
-        double north = Double.parseDouble(upper[1]);
-        double south = Double.parseDouble(lower[1]);
-        double east = Double.parseDouble(upper[0]);
-       
-        
         if (east < itWest) {
             return false;
         }
@@ -142,11 +152,15 @@ public class AnyText {
 
     /**
      * CheckDate
-     * @param date1
-     * @param date2
-     * @param record
-     * @return 
-     * @throws Exception 
+     *
+     * @param date1 set the date value start
+     * @param date2 set the date value final
+     * @param record set the record define
+     * @return the record define
+     * @throws Exception checked exceptions. Checked exceptions need to be
+     * declared in a method or constructor's {@code throws} clause if they can
+     * be thrown by the execution of the method or constructor and propagate
+     * outside the method or constructor boundary.
      */
     public boolean checkDate(String date1, String date2, SummaryRecord record) throws Exception {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -164,13 +178,24 @@ public class AnyText {
     }
 
     /**
-     * Filter a bouding box for identifying a geographic area of interest use to
-     * search.
+     * Filter a bounding box for identifying a geographic area of interest use to search.
+     * @throws Exception  Exception checked exceptions. Checked exceptions need to be
+     * declared in a method or constructor's {@code throws} clause if they can
+     * be thrown by the execution of the method or constructor and propagate
+     * outside the method or constructor boundary.
      */
     public void filter() throws Exception {
+        String lower[] = bbox.getLowerCorner().split(" ");
+        String upper[] = bbox.getUpperCorner().split(" ");
+
+        double west = Double.parseDouble(lower[0]);
+        double north = Double.parseDouble(upper[1]);
+        double south = Double.parseDouble(lower[1]);
+        double east = Double.parseDouble(upper[0]);
 
         for (Iterator<SummaryRecord> it = data.iterator(); it.hasNext();) {
             SummaryRecord itSum = it.next();
+
             /**
              * Remove Out of range Date.
              */
@@ -192,19 +217,21 @@ public class AnyText {
              */
             if (!itSum.getFormat().contains(format)) {
                 it.remove();
-                continue; 
-            /** NOTE: Iterator's remove method, not ArrayList's, is used.
-             * 
-             */
+                continue;
+                /**
+                 * NOTE: Iterator's remove method, not ArrayList's, is used.
+                 *
+                 */
             }
 
             /**
              * Remove picture out of BBOX range.
-             */ 
-            if (!checkBBOX(itSum.getBoundingBox())) {
+             */
+            if (!checkBBOX(east, west, south, north, itSum.getBoundingBox())) {
                 it.remove();
                 continue;
             }
+
         }
     }
 }
