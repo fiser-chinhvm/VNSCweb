@@ -46,8 +46,8 @@ public class Record {
      * be thrown by the execution of the method or constructor and propagate
      * outside the method or constructor boundary. 
      */
-    public Record() throws IOException, DataStoreException, Exception {
-        Catalog catalog = new Catalog();
+    public Record(String path) throws IOException, DataStoreException, Exception {
+        Catalog catalog = new Catalog(path);
         record = new HashMap();
         /**
          * Get all the files from a directory.

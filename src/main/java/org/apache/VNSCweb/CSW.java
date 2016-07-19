@@ -49,14 +49,14 @@ public class CSW {
     @Path("/DescribeRecord")
     @Produces(MediaType.APPLICATION_XML)
     public List<SummaryRecord> DescribeRecord() throws ParseException, Exception {
-        Record record = new Record();
+        Record record = new Record(path.getPropValues());
         return record.getAllRecord();
     }
     @GET
     @Path("/GetRecordById")
     @Produces(MediaType.APPLICATION_XML)
     public SummaryRecord getRecordById(@QueryParam("Id") String id) throws ParseException, Exception {
-        Record record = new Record();
+        Record record = new Record(path.getPropValues());
         SummaryRecord a = record.getRecordById(id);
         return a;
     }
@@ -73,7 +73,7 @@ public class CSW {
             @QueryParam("startDate") String date1,
             @QueryParam("rangeDate") String date2) throws Exception {
 
-        AnyText record = new AnyText(format, identifier, date1, date2);
+        AnyText record = new AnyText(path.getPropValues(),format, identifier, date1, date2);
         record.setBbox(west, east, south, north);
         record.setBbox(5, 130, 5, 130);
         record.filter();
