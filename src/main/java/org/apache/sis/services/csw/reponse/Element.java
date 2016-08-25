@@ -14,14 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.sis.services.csw.reponse;
+
+import org.apache.sis.services.csw.request.*;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * @author  Thi Phuong Hao Nguyen (VNSC)
- * @author  Minh Chinh Vu (VNSC)
- * @author  Martin Desruisseaux (Geomatys)
- * @since   0.8
+ * Base class of XML elements used by Catalog Services on the Web.
+ *
+ * @author Thi Phuong Hao Nguyen (VNSC)
+ * @since 0.8
  * @version 0.8
  * @module
  */
- 
-package org.apache.sis.services.csw;
+@XmlTransient
+public abstract class Element {
+
+    /**
+     * The namespace of Dublin Core elements.
+     */
+    static final String DUBLIN_CORE = "http://purl.org/dc/elements/1.1/";
+
+    /**
+     * The namespace of Dublin Core terms.
+     */
+    static final String DUBLIN_TERMS = "http://purl.org/dc/terms/";
+
+    /**
+     * The namespace of OGC common objects.
+     */
+    static final String OWS = "http://www.opengis.net/ows";
+
+    /**
+     * For subclasses constructors.
+     */
+    Element() {
+    }
+}

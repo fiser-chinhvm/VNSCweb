@@ -14,39 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.sis.services.csw;
+package org.apache.sis.services.csw.request;
 
-import javax.xml.bind.annotation.XmlTransient;
-
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import org.apache.sis.xml.Namespaces;
+import org.opengis.metadata.Metadata;
 
 /**
- * Base class of XML elements used by Catalog Services on the Web.
  *
- * @author  Thi Phuong Hao Nguyen (VNSC)
- * @since   0.8
- * @version 0.8
- * @module
+ * @author haonguyen
  */
-@XmlTransient
-abstract class Element {
-    /**
-     * The namespace of Dublin Core elements.
-     */
-    static final String DUBLIN_CORE = "http://purl.org/dc/elements/1.1/";
+@XmlRootElement(name = "Record", namespace = Namespaces.CSW)
+@XmlType(name = "RecordType")
+public class Record extends AbstractRecord {
 
-    /**
-     * The namespace of Dublin Core terms.
-     */
-    static final String DUBLIN_TERMS = "http://purl.org/dc/terms/";
-
-    /**
-     * The namespace of OGC common objects.
-     */
-    static final String OWS = "http://www.opengis.net/ows";
-
-    /**
-     * For subclasses constructors.
-     */
-    Element() {
+    public Record() {
     }
+
+    public Record(Metadata object, String version, String service) {
+        super(object, version, service);
+    }
+    public AbstractRecord Record(AbstractRecord ab) {
+        AbstractRecord a = ab;
+        return a;
+    }
+
 }

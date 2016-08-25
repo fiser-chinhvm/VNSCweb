@@ -16,40 +16,34 @@
  */
 package org.apache.sis.services.csw;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author  Thi Phuong Hao Nguyen (VNSC)
- * @since   0.8
- * @version 0.8
- * @module
+ * @author haonguyen
  */
-public class CapabilitiesRequest {
+@XmlTransient
+public abstract class CswConfigure {
 
     /**
-     * Contructor's CapabilitiesRequest.
+     * The namespace of Dublin Core elements.
      */
-    public CapabilitiesRequest() {
-    }
+    public static final String DUBLIN_CORE = "http://purl.org/dc/elements/1.1/";
 
     /**
-     * Return get capabilities
-     *
-     * @return capabilities.
+     * The namespace of Dublin Core terms.
      */
-    public List<GetCapabilitie> GetCapabilitiesRequest() {
-        List<GetCapabilitie> m1 = new ArrayList<>();
-        String[] version = {"2.0.2", "2.0.0", "1.0.7"};
-        String[] ouputformat = {"application/xml"};
-        Capacibilities a1 = new Capacibilities();
-        a1.setVersion(version);
-        Capacibilities a2 = new Capacibilities();
-        a2.setOutputFormat(ouputformat);
-        GetCapabilitie m2 = new GetCapabilitie(a1, a2);
-        m1.add(m2);
-        return m1;
+    public static final String DUBLIN_TERMS = "http://purl.org/dc/terms/";
+
+    /**
+     * The namespace of OGC common objects.
+     */
+    public static final String OWS = "http://www.opengis.net/ows";
+    public static final String OGC = "http://www.opengis.net/ogc";
+
+    /**
+     * For subclasses constructors.
+     */
+    public CswConfigure() {
     }
 }
