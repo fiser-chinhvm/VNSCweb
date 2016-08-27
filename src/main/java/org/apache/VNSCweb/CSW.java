@@ -78,14 +78,15 @@ public class CSW {
 
     @GET
     @Path("/getrecords")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
     public GetRecordsReponse GetRecords(
             @QueryParam("service") String service,
             @QueryParam("version") String Version,
             @QueryParam("request") String request,
             @QueryParam("elementSetName") String elementset,
-            @QueryParam("resultType") String resultType,
-            @QueryParam("typeName") String typeName,
+            @QueryParam("cloud") String cloud,
+            @QueryParam("type") String type,
+            @QueryParam("subject") String subject,
             @QueryParam("constraintLanguage") String constraintLanguage,
             @QueryParam("constraint") String constraint,
             @QueryParam("format") String format,
@@ -110,6 +111,7 @@ public class CSW {
         
         if(request.equals("GetRecords")) {
             AnyText t = new AnyText(path.getValue("Path"), Version, service, elementset, constraintLanguage, constraint, format, identifier, date1, date2);
+            t.setAdvanceField(subject, type, cloud);
             t.setBbox(west, east, south, north);
             t.filter();        
             
@@ -126,9 +128,59 @@ public class CSW {
         return null;  
     }
     
+//    @GET
+//    @Path("/records")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public GetRecordsReponse GetRecordsJSON(
+//            @QueryParam("service") String service,
+//            @QueryParam("version") String Version,
+//            @QueryParam("request") String request,
+//            @QueryParam("elementSetName") String elementset,
+//            @QueryParam("resultType") String resultType,
+//            @QueryParam("typeName") String typeName,
+//            @QueryParam("constraintLanguage") String constraintLanguage,
+//            @QueryParam("constraint") String constraint,
+//            @QueryParam("format") String format,
+//            @QueryParam("identifier") String identifier,
+//            @QueryParam("west") String west,
+//            @QueryParam("east") String east,
+//            @QueryParam("south") String south,
+//            @QueryParam("north") String north,
+//            @QueryParam("startDate") String date1,
+//            @QueryParam("rangeDate") String date2,
+//            @QueryParam("startPosition") int start,
+//            @QueryParam("maxRecords") int size) throws ParseException, Exception {
+//        
+//        //Chay BT
+////        if (request.equals("GetRecords") && start >= 0 && size > 0) {
+////            GetRecordsReponse reponse = new GetRecordsReponse();
+////            RecordConfigure record = new RecordConfigure(path.getValue("Path"), Version, service);
+////            reponse.getSearchstatus();
+////            reponse.setSearchresults(record.getRecords(start, size,elementset));
+////            return reponse;
+////        }
+//        
+//        if(request.equals("GetRecords")) {
+//            AnyText t = new AnyText(path.getValue("Path"), Version, service, elementset, constraintLanguage, constraint, format, identifier, date1, date2);
+//            t.setBbox(west, east, south, north);
+//            t.filter();        
+//            
+//            for(int i = 0; i < t.getData().size(); i++) {
+//                System.out.println(t.getData().get(i).getIdentifier());
+//            }
+//            GetRecordsReponse response = new GetRecordsReponse();
+//            response.getSearchstatus();
+//            response.setSearchresults(t.getResult(start, size, elementset));
+//            //ok chua?
+//            return response;
+//        }
+//        
+//        return null;  
+//    }
+    
     @GET
     @Path("/getrecordbyid")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
     public GetRecordByIdReponse getRecordById(
             @QueryParam("service") String service,
             @QueryParam("version") String Version,
@@ -152,10 +204,14 @@ public class CSW {
             file = new File(path.getValue("Path") + "/geotiff/" + name.substring(0, 21) + "/" + name);
         }
         
+        if(name.endsWith("LGN00")){
+            file = new File(path.getValue("Path") + "/package/" + name + ".tar.gz");
+        }
+        
         if(name.startsWith("M")) {
-            file = new File(path.getValue("Path") + "/modis/" + name.substring(0, 41) + "/" + name);
+            file = new File(path.getValue("Path") + "/modis/" + name.substring(0, 7) + "/" + name);
             if(name.endsWith(".jpg")) {
-                file = new File(path.getValue("Path") + "/modis/" + name.substring(0, 41) + "/BROWSE." + name.substring(0, name.length() - 8) + ".1.jpg");
+                file = new File(path.getValue("Path") + "/modis/" + name.substring(0, 7) + "/BROWSE." + name.substring(0, name.length() - 8) + ".1.jpg");
             }
             
         }

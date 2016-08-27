@@ -8,11 +8,30 @@ and open the template in the editor.
     Author     : haonguyen
 */
 
+._md-datepicker-floating-label>md-datepicker .md-datepicker-input-container {
+    width: 70%;
+}
+
+#result-table tr:hover {
+    background: beige;
+}
+
+md-input-container {
+    margin: 10px 0;
+}
+
+md-radio-button {
+    display: inline-block;
+    margin-right: 30px;
+}
+
 .mainBody{
     /*background: #bdeffe;*/
     color: #000305;
+    top: 10px !important;
+    position: relative !important;
     margin: 0 auto;
-    width: 80%;
+    width: 80% !important;
     background-repeat:no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -36,7 +55,7 @@ and open the template in the editor.
     height:30px;
 }
 .background-title{
-    background: url(../image/titleBackground.jpg);
+    background: url(../images/titleBackground.jpg);
     width:100%;
     background-attachment: fixed;
     background-position: center;
@@ -164,6 +183,7 @@ a:hover,a:active{
     width: 35%;
     float: left;
     background: #e8eee7;
+    max-height: 678px;
 }
 .topcontent{
     background-color:  #05e6e8;
@@ -178,7 +198,6 @@ a:hover,a:active{
     font-size:30px;
     padding: 10px;
     text-shadow: none;
-    margin-bottom:30px;
 }
 .top-sidebar{
     width: 65%;

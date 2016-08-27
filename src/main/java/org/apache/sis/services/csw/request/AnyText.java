@@ -39,6 +39,11 @@ public class AnyText {
     String identifier;
     String format;
     String constraintLanguage;
+    String subject;
+    String type;
+    double cloud;
+    boolean cloudSmaller;
+    
     int start;
     int size;
     /**
@@ -149,6 +154,25 @@ public class AnyText {
             bbox.setUpperCorner(east + " " + north);
         }
     }
+    
+    public void setAdvanceField(String subject, String type, String cloud) {
+        if(subject == null) subject = "";
+        if(type == null) type = "";
+        if(cloud == null || cloud.equals("")) {
+            this.cloud = -1;
+        } else {
+            this.cloud = Double.parseDouble(cloud.substring(1));
+            System.out.println(this.cloud);
+            //Check Cloud smaller or larger than finding result
+            if(cloud.substring(0, 1).equals("<")) this.cloudSmaller = true; 
+            if(cloud.substring(0, 1).equals(">")) this.cloudSmaller = false;
+            
+            System.out.println(this.cloudSmaller);
+        }
+        
+        this.subject = subject;
+        this.type = type;
+    }
 
     /**
      * AnyText used to search.
@@ -206,6 +230,7 @@ public class AnyText {
         RecordConfigure a = new RecordConfigure(path,version,service);
         List<AbstractRecord> temp = a.getAllRecord();
         
+        System.out.println(temp.size());
         if(elementSet.equals("brief")){
             for(int i = 0; i < temp.size(); i++) {
                 AbstractRecord record = new Record().Record(temp.get(i)); //dung ch
@@ -314,6 +339,19 @@ public class AnyText {
         return false;
     }
     
+    public boolean checkCloud(double cl) {
+        if(this.cloud == -1) return true;
+        
+        if(this.cloudSmaller == true) {
+            if(cl < this.cloud) return true;
+        } 
+        
+        if(this.cloudSmaller == false) {
+            if(cl > this.cloud) return true;
+        }
+        return false;
+    }
+    
     public boolean checkConstraint(AbstractRecord rec) {
         if(text.startsWith("%") && text.endsWith("%")) {
             String temp = text.replaceAll("%", "");
@@ -390,12 +428,36 @@ public class AnyText {
                     it.remove();
                     continue;
                 }
-            } 
+            }
+            
             
             if(constraintLanguage.toUpperCase().equals("FILTER")){
-                if(format.equals("") && identifier.equals("") && startDate.equals("") && rangeDate.equals("") && bbox.getLowerCorner().contains("-180") && bbox.getUpperCorner().contains("180")) {
-                    data = new ArrayList<AbstractRecord>();
-                    break;
+//                if(format.equals("") && identifier.equals("") && startDate.equals("") && rangeDate.equals("") && bbox.getLowerCorner().contains("-180") && bbox.getUpperCorner().contains("180")) {
+//                    data = new ArrayList<AbstractRecord>();
+//                    break;
+//                }
+
+                //Check Cloud
+                if(cloud != -1) {
+                    if(itSum.getCloudcover() == -1 || !this.checkCloud(itSum.getCloudcover())) {
+                        it.remove();
+                        continue;
+                    }
+                }
+                
+                //Check subject
+//                System.out.println("SUB="+ itSum.getSubject() + " " + itSum.getSubject().contains(subject));
+                if(itSum.getSubject() != null) {
+                    if(!itSum.getSubject().contains(subject)) {
+                        it.remove();
+                        continue;
+                    }
+
+    //                System.out.println("Type="+ itSum.getType() + " " + itSum.getType().contains(type));
+                    if(!itSum.getType().contains(type)) {
+                        it.remove();
+                        continue;
+                    }
                 }
                 
                 if (!this.checkDate(startDate, rangeDate, itSum)) {
@@ -431,8 +493,9 @@ public class AnyText {
     }
     
     public static void main(String[] args) throws Exception {
-        AnyText t = new AnyText(path.getValue("Path"), "2.0.2", "GetRecords", "full", "filter", "", "", "MY", "", "");
-//        AnyText z = new AnyText(path, version, service, elementSet, constraintLanguage, constraint, format, identifier, startDate, rangeDate)
+        AnyText t = new AnyText(path.getValue("Path"), "2.0.2", "GetRecords", "full", "filter", "", "", "MOD", "", "");
+        t.setAdvanceField(null, "L3", "");
+//        AnyText z = new AnyText(path, version, service, elementSet, constraintLanguage, constraint, format, identifier, subject, type, cloud, startDate, rangeDate)
 //        t.setBbox("", "", "","");
         t.filter();
         
@@ -441,7 +504,7 @@ public class AnyText {
             AbstractRecord temp = t.getData().get(i);
             System.out.println(temp.getCloudcover() + " SUb=" + temp.getSubject() + " type=" +temp.getType());
         }
-//        
+        
 //        System.out.println(t.getData().size());
         
 //        System.out.println(t.convertConstraint("csw:AnyText Like '%pollution%'"));

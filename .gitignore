@@ -1,2 +1,3 @@
 target/
 *~
+src/main/resources/org/apache/sis/services/csw/config.properties
